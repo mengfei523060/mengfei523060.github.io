@@ -1,178 +1,370 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人主页 | Linux & Digital Enthusiast</title>
-    <style>
-        :root {
-            /* 浅色主题配色 */
-            --bg-color: #f5f7fa;       /* 整体背景：极淡的灰蓝色 */
-            --card-bg: #ffffff;        /* 卡片背景：纯白 */
-            --text-primary: #2c3e50;   /* 主文字：深灰蓝 */
-            --text-secondary: #3498db; /* 强调色：清爽蓝 */
-            --accent: #2980b9;         /* 悬停/高亮：深蓝 */
-            --border: #e1e8ed;         /* 边框：淡灰 */
-            --hover-bg: #f8f9fa;       /* 悬停背景 */
-            --shadow: rgba(0, 0, 0, 0.05); /* 轻微阴影 */
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
-        .container {
-            max-width: 720px;
-            width: 100%;
-            text-align: center;
-        }
-        /* 头部个人信息 */
-        .avatar {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            border: 3px solid #fff;
-            box-shadow: 0 4px 10px var(--shadow);
-            margin-bottom: 20px;
-            object-fit: cover;
-            background-color: #eee;
-        }
-        h1 { font-size: 1.8rem; margin-bottom: 10px; color: var(--text-primary); }
-        .bio { font-size: 1rem; color: #7f8c8d; margin-bottom: 25px; }
-        .tags { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
-        .tag {
-            background-color: #eef2f7;
-            color: var(--text-secondary);
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            border: 1px solid transparent;
-            font-family: "Courier New", Courier, monospace;
-            transition: all 0.2s;
-        }
-        .tag:hover { border-color: var(--text-secondary); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>梦飞的导航页</title>
+<style>
+  :root {
+    --bg1:#eef2fa; --bg2:#dbe4f4;
+    --fg:#1b2438; --muted:#5b6a85;
+    --card:rgba(255,255,255,.78); --card-br:rgba(20,40,80,.10);
+    --input:rgba(20,40,80,.06);
+    --star:#6d8bc0;
+    --shadow:0 10px 28px rgba(60,90,150,.14);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { color-scheme: light; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    color:var(--fg);
+    background:
+      radial-gradient(1100px 700px at 15% -10%, rgba(56,120,255,.16), transparent 60%),
+      radial-gradient(900px 600px at 95% 8%, rgba(255,140,60,.10), transparent 55%),
+      linear-gradient(180deg, var(--bg1), var(--bg2));
+    background-attachment:fixed;
+    min-height:100vh;
+    line-height:1.7;
+  }
+  #stars { position:fixed; inset:0; z-index:0; pointer-events:none; }
+  .wrap { position:relative; z-index:1; max-width:1080px; margin:0 auto; padding:40px 20px 30px; }
 
-        /* 推荐网站模块 */
-        .section-title {
-            text-align: left;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            padding-left: 10px;
-            border-left: 4px solid var(--text-secondary);
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 15px;
-            margin-bottom: 40px;
-        }
-        .grid-item {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 20px 10px;
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 2px 5px var(--shadow);
-        }
-        .grid-item:hover {
-            background-color: var(--hover-bg);
-            border-color: var(--text-secondary);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.15);
-        }
-        .grid-icon { font-size: 1.8rem; }
-        .grid-name { font-size: 0.95rem; font-weight: 500; }
+  /* ---------- 顶部个人信息 ---------- */
+  /* 简介卡背景：冷暖渐变 */
+  .hero {
+    position:relative;
+    background:
+      radial-gradient(640px 320px at 88% -8%, rgba(56,189,248,.17), transparent 62%),
+      radial-gradient(560px 320px at 6% 110%, rgba(251,160,60,.18), transparent 62%),
+      linear-gradient(120deg, #f2f7ff 0%, #fdf8f0 52%, #f4f1ff 100%);
+    border:1px solid rgba(90,120,180,.22);
+    border-radius:22px;
+    padding:38px 30px 32px;
+    text-align:center;
+    box-shadow:var(--shadow);
+  }
+  /* 头像（Linux × 电子电路 × 机械） */
+  .bh { position:relative; width:112px; height:112px; margin:0 auto 22px; border-radius:50%; }
+  .bh img {
+    width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; background:#f4f7fb;
+    box-shadow:0 0 0 1px rgba(150,165,195,.40), 0 0 20px 4px rgba(255,205,150,.30), 0 0 44px 14px rgba(140,170,255,.16);
+    animation:pulse 5s ease-in-out infinite alternate;
+  }
+  @keyframes pulse {
+    from { box-shadow:0 0 0 1px rgba(150,165,195,.32), 0 0 14px 2px rgba(255,205,150,.20), 0 0 34px 10px rgba(140,170,255,.10); }
+    to   { box-shadow:0 0 0 1px rgba(150,165,195,.50), 0 0 26px 7px rgba(255,205,150,.40), 0 0 52px 18px rgba(140,170,255,.22); }
+  }
 
-        /* 底部链接与页脚 */
-        .links { display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
-        .link-item {
-            display: block;
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-            text-decoration: none;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 5px var(--shadow);
-        }
-        .link-item:hover { 
-            border-color: var(--text-secondary); 
-            color: var(--text-secondary);
-        }
-        
-        footer { font-size: 0.8rem; color: #95a5a6; }
-        .cursor { display: inline-block; width: 8px; height: 18px; background-color: var(--text-secondary); animation: blink 1s infinite; vertical-align: middle; margin-left: 5px; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-    </style>
+  .hero h1 { font-size:26px; letter-spacing:1px; }
+  .badges { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:20px; }
+  .badges span {
+    font-size:12.5px; padding:6px 15px; border-radius:99px;
+    background:var(--input); border:1px solid var(--card-br); color:var(--fg);
+  }
+  .clock { margin-top:20px; font-variant-numeric:tabular-nums; color:var(--muted); font-size:13px; }
+  .clock #time { color:var(--fg); font-size:15px; font-weight:600; margin-right:8px; }
+
+  /* ---------- 底部项目链接（面板背景 + 左对齐） ---------- */
+  .project {
+    display:flex; justify-content:flex-start; align-items:center;
+    margin-top:26px; padding:20px 26px;
+    background:linear-gradient(165deg, rgba(255,255,255,.66) 0%, rgba(238,244,253,.52) 60%, rgba(246,242,255,.55) 100%);
+    border:1px solid rgba(90,120,180,.18);
+    border-radius:22px;
+    box-shadow:var(--shadow);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+  }
+  .project a {
+    display:inline-flex; align-items:center; gap:12px; text-decoration:none;
+    font-size:15px; font-weight:600; color:var(--fg); transition:.2s;
+    flex-wrap:wrap; text-align:left; max-width:100%;
+  }
+  .project a:hover { color:#e8650f; transform:translateX(4px); }
+  .project svg { width:22px; height:22px; flex:none; }
+  .project small { font-weight:400; font-size:12.5px; color:var(--muted); }
+
+  /* ---------- 分类标签 ---------- */
+  /* ---------- 导航区背景面板 ---------- */
+  .panel {
+    background:linear-gradient(165deg, rgba(255,255,255,.66) 0%, rgba(238,244,253,.52) 60%, rgba(246,242,255,.55) 100%);
+    border:1px solid rgba(90,120,180,.18);
+    border-radius:22px;
+    padding:28px 24px 28px;
+    margin-top:26px;
+    box-shadow:var(--shadow);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+  }
+  .tabs { display:flex; gap:9px; flex-wrap:wrap; justify-content:center; margin:2px 0 24px; }
+  .tabs button {
+    padding:7px 18px; border-radius:99px; font-size:13.5px; cursor:pointer; transition:.2s;
+    border:1px solid var(--card-br); background:var(--card); color:var(--muted);
+  }
+  .tabs button b { font-weight:600; color:var(--fg); margin-left:5px; font-size:12px; opacity:.7; }
+  .tabs button:hover { color:var(--fg); transform:translateY(-1px); }
+  .tabs button.on { background:var(--fg); color:var(--bg1); border-color:var(--fg); }
+  .tabs button.on b { color:var(--bg1); opacity:.75; }
+
+  /* ---------- 站点卡片 ---------- */
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:18px; }
+  .card {
+    --acc:#8fa3c8;
+    display:flex; align-items:center; gap:14px; text-decoration:none;
+    background:var(--card); border:1px solid var(--card-br);
+    border-radius:16px; padding:16px 18px; transition:transform .2s, box-shadow .2s, border-color .2s;
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    animation:pop .35s ease both;
+  }
+  @keyframes pop { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+  .card[data-cat="数码"]    { --acc:#38bdf8; }
+  .card[data-cat="linux"]   { --acc:#fbbf24; }
+  .card[data-cat="科技"]    { --acc:#a78bfa; }
+  .card[data-cat="摄影"]    { --acc:#34d399; }
+  .card:hover {
+    transform:translateY(-4px);
+    border-color:color-mix(in srgb, var(--acc) 55%, transparent);
+    box-shadow:0 12px 30px color-mix(in srgb, var(--acc) 16%, transparent);
+  }
+  .card.hide { display:none; }
+  .favi {
+    width:44px; height:44px; flex:none; border-radius:12px; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+    background:color-mix(in srgb, var(--acc) 14%, transparent);
+    border:1px solid color-mix(in srgb, var(--acc) 30%, transparent);
+  }
+  .favi img { width:26px; height:26px; object-fit:contain; }
+  .favi .letter { font-size:20px; font-weight:700; color:var(--acc); }
+  .meta { flex:1; min-width:0; }
+  .meta .name { display:block; font-size:15px; font-weight:600; color:var(--fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .meta .name i { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--acc); margin-right:8px; vertical-align:1px; font-style:normal; }
+  .meta .desc { display:block; font-size:12.5px; color:var(--muted); margin-top:7px; line-height:1.6; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+  /* ---------- 页脚（与其他面板同款毛玻璃背景） ---------- */
+  footer {
+    text-align:center; color:var(--muted); font-size:12.5px; margin-top:26px; padding:16px 20px;
+    background:linear-gradient(165deg, rgba(255,255,255,.66) 0%, rgba(238,244,253,.52) 60%, rgba(246,242,255,.55) 100%);
+    border:1px solid rgba(90,120,180,.18);
+    border-radius:22px;
+    box-shadow:var(--shadow);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+  }
+  footer b { color:var(--fg); }
+
+  @media (max-width:560px) {
+    .wrap { padding:24px 14px; }
+    .hero { padding:28px 16px 24px; }
+    .panel { padding:18px 12px 20px; margin-top:18px; }
+    footer { margin-top:16px; padding:13px 14px; }
+    .grid { grid-template-columns:1fr 1fr; gap:10px; }
+    .card { padding:12px; gap:10px; }
+    .favi { width:38px; height:38px; }
+    .meta .name { font-size:13.5px; }
+    .meta .desc { display:none; }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <!-- 个人信息区 -->
-        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar" class="avatar">
-        <h1>你的名字<span class="cursor"></span></h1>
-        <p class="bio">数码爱好者 / Linux 用户 / 开源探索者</p>
+<canvas id="stars"></canvas>
 
-        <div class="tags">
-            <span class="tag">🐧 Arch Linux</span>
-            <span class="tag">📷 摄影</span>
-            <span class="tag">⌨️ 机械键盘</span>
-            <span class="tag">🐳 Docker</span>
-        </div>
-
-        <!-- 推荐网站模块 -->
-        <div class="section-title">推荐网站</div>
-        <div class="grid-container">
-            <a href="https://github.com" target="_blank" class="grid-item">
-                <span class="grid-icon">🐙</span>
-                <span class="grid-name">GitHub</span>
-            </a>
-            <a href="https://v2ex.com" target="_blank" class="grid-item">
-                <span class="grid-icon">💬</span>
-                <span class="grid-name">V2EX</span>
-            </a>
-            <a href="https://www.linux.do" target="_blank" class="grid-item">
-                <span class="grid-icon">🐧</span>
-                <span class="grid-name">Linux.do</span>
-            </a>
-            <a href="https://www.hellogithub.com" target="_blank" class="grid-item">
-                <span class="grid-icon">⭐</span>
-                <span class="grid-name">HelloGitHub</span>
-            </a>
-            <a href="https://gitee.com/explore" target="_blank" class="grid-item">
-                <span class="grid-icon">🇨🇳</span>
-                <span class="grid-name">Gitee</span>
-            </a>
-             <a href="https://archlinux.org" target="_blank" class="grid-item">
-                <span class="grid-icon">🎯</span>
-                <span class="grid-name">Arch Wiki</span>
-            </a>
-        </div>
-
-        <!-- 个人链接区 -->
-        <div class="links">
-            <a href="#" class="link-item">📂 我的博客 / 折腾笔记</a>
-            <a href="mailto:your@email.com" class="link-item">📧 发送邮件联系我</a>
-        </div>
-
-        <footer>
-            <p>© 2026 Built with ❤️ & Static HTML</p>
-        </footer>
+<div class="wrap">
+  <!-- 个人信息 -->
+  <header class="hero">
+    <!-- 头像：PCB 电路板 + 机械齿轮中的 Tux（Linux × 电子电路 × 机械，程序化绘制） -->
+    <div class="bh" title="Linux · 电子电路 · 机械">
+      <img src="avatar-linux-ebm.png" alt="Linux 企鹅与电路齿轮头像">
     </div>
+
+    <h1>梦飞</h1>
+    <div class="badges">
+      <span>🐧 Linux 用户</span>
+      <span>📷 摄影</span>
+      <span>📱 电子数码</span>
+      <span>⚙️ 机械爱好者</span>
+    </div>
+
+    <div class="clock"><span id="time">--:--:--</span><span id="date"></span></div>
+  </header>
+
+  <!-- 导航区 -->
+  <section class="panel">
+  <!-- 分类筛选 -->
+  <nav class="tabs" id="tabs">
+    <button class="on" data-cat="all">全部 <b>20</b></button>
+    <button data-cat="数码">📱 数码 <b>6</b></button>
+    <button data-cat="linux">🐧 Linux <b>6</b></button>
+    <button data-cat="科技">🛰️ 科技 <b>4</b></button>
+    <button data-cat="摄影">📷 摄影 <b>4</b></button>
+  </nav>
+
+  <!-- 导航站点 -->
+  <main class="grid" id="grid">
+    <a class="card" data-cat="数码" href="https://www.chiphell.com" target="_blank" rel="noopener">
+      <span class="favi" data-domain="www.chiphell.com"><span class="letter">C</span></span>
+      <span class="meta"><span class="name"><i></i>Chiphell</span><span class="desc">高端发烧硬件 · 数码生活社区</span></span>
+    </a>
+    <a class="card" data-cat="数码" href="https://www.dcview.com" target="_blank" rel="noopener">
+      <span class="favi" data-domain="www.dcview.com"><span class="letter">D</span></span>
+      <span class="meta"><span class="name"><i></i>DCView 数码视野</span><span class="desc">老牌数码 · 新机评测与资讯</span></span>
+    </a>
+    <a class="card" data-cat="数码" href="https://www.ifanr.com" target="_blank" rel="noopener">
+      <span class="favi" data-domain="www.ifanr.com"><span class="letter">爱</span></span>
+      <span class="meta"><span class="name"><i></i>爱范儿</span><span class="desc">聚焦新酷产品与数字生活</span></span>
+    </a>
+
+    <a class="card" data-cat="数码" href="https://www.zol.com.cn" target="_blank" rel="noopener">
+      <span class="favi" data-domain="www.zol.com.cn"><span class="letter">Z</span></span>
+      <span class="meta"><span class="name"><i></i>ZOL 中关村在线</span><span class="desc">数码产品库 · 报价与评测</span></span>
+    </a>
+    <a class="card" data-cat="数码" href="https://www.ithome.com" target="_blank" rel="noopener">
+      <span class="favi" data-domain="www.ithome.com"><span class="letter">IT</span></span>
+      <span class="meta"><span class="name"><i></i>IT之家</span><span class="desc">科技数码快讯 · 智能设备资讯</span></span>
+    </a>
+    <a class="card" data-cat="数码" href="https://www.itsk.com/" target="_blank" rel="noopener">
+      <span class="favi" data-domain="www.itsk.com"><span class="letter">天</span></span>
+      <span class="meta"><span class="name"><i></i>IT天空</span><span class="desc">系统部署 · IT 技术交流论坛</span></span>
+    </a>
+
+    <a class="card" data-cat="linux" href="https://linux.do" target="_blank" rel="noopener">
+      <span class="favi" data-domain="linux.do"><span class="letter">L</span></span>
+      <span class="meta"><span class="name"><i></i>linux.do</span><span class="desc">热门 Linux 与新技术社区</span></span>
+    </a>
+    <a class="card" data-cat="linux" href="https://bbs.archlinuxcn.org" target="_blank" rel="noopener">
+      <span class="favi" data-domain="archlinuxcn.org"><span class="letter">A</span></span>
+      <span class="meta"><span class="name"><i></i>Arch Linux 中文社区</span><span class="desc">Arch 爱好者论坛 · Wiki</span></span>
+    </a>
+    <a class="card" data-cat="linux" href="https://forum.ubuntu.org.cn" target="_blank" rel="noopener">
+      <span class="favi" data-domain="ubuntu.org.cn"><span class="letter">U</span></span>
+      <span class="meta"><span class="name"><i></i>Ubuntu 中文论坛</span><span class="desc">Ubuntu 官方中文社区</span></span>
+    </a>
+
+    <a class="card" data-cat="linux" href="https://wiki.archlinux.org/" target="_blank" rel="noopener">
+      <span class="favi" data-domain="wiki.archlinux.org"><span class="letter">A</span></span>
+      <span class="meta"><span class="name"><i></i>Arch Linux Wiki</span><span class="desc">Arch 官方 Wiki · 安装与维护指南</span></span>
+    </a>
+    <a class="card" data-cat="linux" href="https://www.openeuler.org/zh/" target="_blank" rel="noopener">
+      <span class="favi" data-domain="www.openeuler.org"><span class="letter">O</span></span>
+      <span class="meta"><span class="name"><i></i>openEuler</span><span class="desc">开源操作系统社区</span></span>
+    </a>
+    <a class="card" data-cat="linux" href="https://www.debian.cn" target="_blank" rel="noopener">
+      <span class="favi" data-domain="www.debian.cn"><span class="letter">De</span></span>
+      <span class="meta"><span class="name"><i></i>Debian 中文</span><span class="desc">稳定至上 · 通用操作系统</span></span>
+    </a>
+
+    <a class="card" data-cat="科技" href="https://www.wepe.com.cn/" target="_blank" rel="noopener">
+      <span class="favi" data-domain="www.wepe.com.cn"><span class="letter">微</span></span>
+      <span class="meta"><span class="name"><i></i>微 PE 工具箱</span><span class="desc">纯净 WinPE 启动盘 · 装机维护</span></span>
+    </a>
+    <a class="card" data-cat="科技" href="https://solidot.org" target="_blank" rel="noopener">
+      <span class="favi" data-domain="solidot.org"><span class="letter">S</span></span>
+      <span class="meta"><span class="name"><i></i>Solidot</span><span class="desc">开源 · 科学 · 极客资讯</span></span>
+    </a>
+
+    <a class="card" data-cat="科技" href="https://www.pingwest.com" target="_blank" rel="noopener">
+      <span class="favi" data-domain="www.pingwest.com"><span class="letter">品</span></span>
+      <span class="meta"><span class="name"><i></i>品玩 PingWest</span><span class="desc">科技与创业报道</span></span>
+    </a>
+    <a class="card" data-cat="科技" href="https://news.ycombinator.com" target="_blank" rel="noopener">
+      <span class="favi" data-domain="news.ycombinator.com"><span class="letter">Y</span></span>
+      <span class="meta"><span class="name"><i></i>Hacker News</span><span class="desc">全球创业与技术热榜</span></span>
+    </a>
+
+    <a class="card" data-cat="摄影" href="https://www.xchuxing.com" target="_blank" rel="noopener">
+      <span class="favi" data-domain="www.xchuxing.com"><span class="letter">星</span></span>
+      <span class="meta"><span class="name"><i></i>星行摄影</span><span class="desc">摄影作品交流 · 器材讨论</span></span>
+    </a>
+    <a class="card" data-cat="摄影" href="https://forum.fengniao.com" target="_blank" rel="noopener">
+      <span class="favi" data-domain="fengniao.com"><span class="letter">蜂</span></span>
+      <span class="meta"><span class="name"><i></i>蜂鸟摄影论坛</span><span class="desc">老牌摄影论坛 · 影友家园</span></span>
+    </a>
+    <a class="card" data-cat="摄影" href="https://www.tuchong.com" target="_blank" rel="noopener">
+      <span class="favi" data-domain="www.tuchong.com"><span class="letter">图</span></span>
+      <span class="meta"><span class="name"><i></i>图虫网</span><span class="desc">摄影师社区 · 作品与版权图库</span></span>
+    </a>
+    <a class="card" data-cat="摄影" href="https://500px.me" target="_blank" rel="noopener">
+      <span class="favi" data-domain="500px.me"><span class="letter">5</span></span>
+      <span class="meta"><span class="name"><i></i>500px 摄影社区</span><span class="desc">高质量摄影作品平台</span></span>
+    </a>
+  </main>
+  </section>
+
+  <!-- 个人项目 -->
+  <section class="project">
+    <a href="https://github.com/mengfei523060/web-txt-reader2" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      <span>web-txt-reader2</span>
+      <small>在线 TXT 小说阅读器 · GitHub 开源项目</small>
+    </a>
+  </section>
+
+  <footer>© 2026 <b>梦飞</b> · </footer>
+</div>
+
+<script>
+(function () {
+  /* ---------- 星空背景 ---------- */
+  var cv = document.getElementById('stars'), ctx = cv.getContext('2d');
+  var stars = [], W, H, DPR = Math.min(window.devicePixelRatio || 1, 2);
+  function starColor() {
+    return getComputedStyle(document.documentElement).getPropertyValue('--star').trim() || '#cfe0ff';
+  }
+  var SC = starColor();
+  function resize() {
+    W = cv.width = innerWidth * DPR; H = cv.height = innerHeight * DPR;
+    cv.style.width = innerWidth + 'px'; cv.style.height = innerHeight + 'px';
+    var n = Math.floor(innerWidth * innerHeight / 6500);
+    stars = [];
+    for (var i = 0; i < n; i++) {
+      stars.push({ x: Math.random() * W, y: Math.random() * H,
+        r: (Math.random() * 1.1 + .3) * DPR,
+        p: Math.random() * Math.PI * 2, s: Math.random() * 1.2 + .3 });
+    }
+  }
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    var tt = t / 1000;
+    for (var i = 0; i < stars.length; i++) {
+      var st = stars[i];
+      var a = .35 + .55 * (0.5 + 0.5 * Math.sin(tt * st.s + st.p));
+      ctx.globalAlpha = a; ctx.fillStyle = SC;
+      ctx.beginPath(); ctx.arc(st.x, st.y, st.r, 0, 6.283); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+  addEventListener('resize', resize); resize(); requestAnimationFrame(draw);
+
+  /* ---------- 时钟 & 问候 ---------- */
+  var WD = ['日','一','二','三','四','五','六'];
+  function tick() {
+    var d = new Date(), p = function (n) { return String(n).padStart(2, '0'); };
+    document.getElementById('time').textContent = p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+    document.getElementById('date').textContent = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日 星期' + WD[d.getDay()];
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ---------- 分类筛选 ---------- */
+  var tabs = document.getElementById('tabs');
+  tabs.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    tabs.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); });
+    var cat = b.dataset.cat;
+    document.querySelectorAll('#grid .card').forEach(function (c, i) {
+      var show = cat === 'all' || c.dataset.cat === cat;
+      c.classList.toggle('hide', !show);
+      if (show) { c.style.animation = 'none'; void c.offsetWidth; c.style.animation = 'pop .35s ease ' + (i * 0.03) + 's both'; }
+    });
+  });
+
+  /* ---------- 站点图标（远程 favicon，加载失败显示字母） ---------- */
+  document.querySelectorAll('.favi[data-domain]').forEach(function (el) {
+    var img = new Image();
+    img.onload = function () { el.textContent = ''; el.appendChild(img); };
+    img.onerror = function () { /* 保留字母图标 */ };
+    img.src = 'https://www.google.com/s2/favicons?domain=' + el.dataset.domain + '&sz=64';
+  });
+})();
+</script>
 </body>
 </html>
