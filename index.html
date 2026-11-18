@@ -86,7 +86,6 @@
   .project small { font-weight:400; font-size:12.5px; color:var(--muted); }
   .project .ast { color:var(--fg); font-weight:700; font-size:16px; line-height:1; }
 
-  /* ---------- 分类标签 ---------- */
   /* ---------- 导航区背景面板 ---------- */
   .panel {
     background:linear-gradient(165deg, rgba(255,255,255,.66) 0%, rgba(238,244,253,.52) 60%, rgba(246,242,255,.55) 100%);
@@ -98,15 +97,6 @@
     backdrop-filter:blur(12px);
     -webkit-backdrop-filter:blur(12px);
   }
-  .tabs { display:flex; gap:9px; flex-wrap:wrap; justify-content:center; margin:2px 0 24px; }
-  .tabs button {
-    padding:7px 18px; border-radius:99px; font-size:13.5px; cursor:pointer; transition:.2s;
-    border:1px solid var(--card-br); background:var(--card); color:var(--muted);
-  }
-  .tabs button b { font-weight:600; color:var(--fg); margin-left:5px; font-size:12px; opacity:.7; }
-  .tabs button:hover { color:var(--fg); transform:translateY(-1px); }
-  .tabs button.on { background:var(--fg); color:var(--bg1); border-color:var(--fg); }
-  .tabs button.on b { color:var(--bg1); opacity:.75; }
 
   /* ---------- 站点卡片 ---------- */
   .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:18px; }
@@ -128,7 +118,6 @@
     border-color:color-mix(in srgb, var(--acc) 55%, transparent);
     box-shadow:0 12px 30px color-mix(in srgb, var(--acc) 16%, transparent);
   }
-  .card.hide { display:none; }
   .favi {
     width:44px; height:44px; flex:none; border-radius:12px; overflow:hidden;
     display:flex; align-items:center; justify-content:center;
@@ -192,15 +181,6 @@
 
   <!-- 导航区 -->
   <section class="panel">
-  <!-- 分类筛选 -->
-  <nav class="tabs" id="tabs">
-    <button class="on" data-cat="all">全部 <b>16</b></button>
-    <button data-cat="数码">📱 数码 <b>4</b></button>
-    <button data-cat="linux">🐧 Linux <b>10</b></button>
-    <button data-cat="科技">🛰️ 科技 <b>1</b></button>
-    <button data-cat="摄影">📷 摄影 <b>1</b></button>
-  </nav>
-
   <!-- 导航站点 -->
   <main class="grid" id="grid">
     <a class="card" data-cat="数码" href="https://www.chiphell.com" target="_blank" rel="noopener">
@@ -332,19 +312,6 @@
     document.getElementById('date').textContent = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日 星期' + WD[d.getDay()];
   }
   tick(); setInterval(tick, 1000);
-
-  /* ---------- 分类筛选 ---------- */
-  var tabs = document.getElementById('tabs');
-  tabs.addEventListener('click', function (e) {
-    var b = e.target.closest('button'); if (!b) return;
-    tabs.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); });
-    var cat = b.dataset.cat;
-    document.querySelectorAll('#grid .card').forEach(function (c, i) {
-      var show = cat === 'all' || c.dataset.cat === cat;
-      c.classList.toggle('hide', !show);
-      if (show) { c.style.animation = 'none'; void c.offsetWidth; c.style.animation = 'pop .35s ease ' + (i * 0.03) + 's both'; }
-    });
-  });
 
   /* ---------- 站点图标（远程 favicon，加载失败显示字母） ---------- */
   document.querySelectorAll('.favi[data-domain]').forEach(function (el) {
