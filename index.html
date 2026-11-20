@@ -44,7 +44,7 @@
     box-shadow:var(--shadow);
   }
   /* 头像（Linux × 电子电路 × 机械） */
-  .bh { position:relative; width:112px; height:112px; margin:0 auto 22px; border-radius:50%; }
+  .bh { position:relative; width:112px; height:112px; margin:0 auto 34px; border-radius:50%; }
   .bh img {
     width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; background:#f4f7fb;
     box-shadow:0 0 0 1px rgba(150,165,195,.40), 0 0 20px 4px rgba(255,205,150,.30), 0 0 44px 14px rgba(140,170,255,.16);
@@ -55,14 +55,14 @@
     to   { box-shadow:0 0 0 1px rgba(150,165,195,.50), 0 0 26px 7px rgba(255,205,150,.40), 0 0 52px 18px rgba(140,170,255,.22); }
   }
 
-  .hero h1 { font-size:26px; letter-spacing:1px; }
-  .badges { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:20px; }
+  .badges { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:20px; }
   .badges span {
-    font-size:12.5px; width:118px; padding:7px 6px; border-radius:10px;
+    font-size:13.5px; width:106px; padding:5px 6px; border-radius:10px;
     display:inline-flex; align-items:center; justify-content:center;
-    white-space:nowrap; text-align:center;
-    background:var(--input); border:1px solid var(--card-br); color:var(--fg);
+    white-space:nowrap; text-align:center; gap:5px;
+    background:var(--input); border:1px solid rgba(20,40,80,.06); color:var(--fg);
   }
+  .badges span svg { width:14px; height:14px; flex:none; }
   .clock { margin-top:20px; font-variant-numeric:tabular-nums; color:var(--muted); font-size:13px; }
   .hero-corner { position:absolute; right:22px; bottom:14px; font-size:12.5px; letter-spacing:2px; color:var(--muted); opacity:.85; }
 
@@ -172,18 +172,16 @@
     <div class="bh" title="Linux · 电子电路 · 机械">
       <img src="avatar-linux-ebm.png" alt="Linux 企鹅与电路齿轮头像">
     </div>
-
-    <h1>梦飞</h1>
     <div class="badges">
-      <span>🐧 Linux 用户</span>
+      <span>🐧 Linux</span>
       <span>📷 摄影</span>
-      <span>🔌 电子电路</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>电子</span>
       <span>📱 数码</span>
-      <span>⚙️ 机械爱好者</span>
+      <span>⚙️ 机械</span>
     </div>
 
     <div class="clock"><span id="date"></span></div>
-    <div class="hero-corner">个人导航页</div>
+    <div class="hero-corner">梦飞 · 个人导航页</div>
   </header>
 
   <!-- 导航区 -->
