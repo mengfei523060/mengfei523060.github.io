@@ -86,6 +86,9 @@
   .project small { font-weight:400; font-size:12.5px; color:var(--muted); }
   .project .ast { color:var(--fg); font-weight:700; font-size:16px; line-height:1; }
 
+  /* ---------- 本地站点（与导航区同款面板） ---------- */
+  .card[data-cat="local"] { --acc:#f472b6; }
+
   /* ---------- 导航区背景面板 ---------- */
   .panel {
     background:linear-gradient(165deg, rgba(255,255,255,.66) 0%, rgba(238,244,253,.52) 60%, rgba(246,242,255,.55) 100%);
@@ -269,6 +272,16 @@
       <span>amlogic-s9xxx-armbian</span>
       <small>S9xxx 机顶盒 Armbian 固件 · 打包工具链</small>
     </a>
+  </section>
+
+  <!-- 本地站点 -->
+  <section class="panel">
+    <div class="grid">
+      <a class="card" data-cat="local" href="txt-reader/index.html" target="_blank" rel="noopener">
+        <span class="favi"><span class="letter">拾</span></span>
+        <span class="meta"><span class="name"><i></i>拾光阅读</span><span class="desc">简洁小说阅读站 · 本地直接打开</span></span>
+      </a>
+    </div>
   </section>
 
   <footer>© 2026 <b>梦飞</b> · ∞</footer>
