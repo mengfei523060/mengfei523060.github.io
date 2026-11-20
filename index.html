@@ -58,11 +58,13 @@
   .hero h1 { font-size:26px; letter-spacing:1px; }
   .badges { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:20px; }
   .badges span {
-    font-size:12.5px; padding:6px 15px; border-radius:99px;
+    font-size:12.5px; width:118px; padding:7px 6px; border-radius:10px;
+    display:inline-flex; align-items:center; justify-content:center;
+    white-space:nowrap; text-align:center;
     background:var(--input); border:1px solid var(--card-br); color:var(--fg);
   }
   .clock { margin-top:20px; font-variant-numeric:tabular-nums; color:var(--muted); font-size:13px; }
-  .clock #time { color:var(--fg); font-size:15px; font-weight:600; margin-right:8px; }
+  .hero-corner { position:absolute; right:22px; bottom:14px; font-size:12.5px; letter-spacing:2px; color:var(--muted); opacity:.85; }
 
   /* ---------- 底部项目链接（面板背景 + 左对齐） ---------- */
   .project {
@@ -149,6 +151,7 @@
   @media (max-width:560px) {
     .wrap { padding:24px 14px; }
     .hero { padding:28px 16px 24px; }
+    .hero-corner { right:14px; bottom:10px; }
     .panel { padding:18px 12px 20px; margin-top:18px; }
     footer { margin-top:16px; padding:13px 14px; }
     .grid { grid-template-columns:1fr 1fr; gap:10px; }
@@ -179,7 +182,8 @@
       <span>⚙️ 机械爱好者</span>
     </div>
 
-    <div class="clock"><span id="time">--:--:--</span><span id="date"></span></div>
+    <div class="clock"><span id="date"></span></div>
+    <div class="hero-corner">个人导航页</div>
   </header>
 
   <!-- 导航区 -->
@@ -321,14 +325,29 @@
   }
   addEventListener('resize', resize); resize(); requestAnimationFrame(draw);
 
-  /* ---------- 时钟 & 问候 ---------- */
+  /* ---------- 日期（公历 + 农历） ---------- */
   var WD = ['日','一','二','三','四','五','六'];
+  var LUNAR_DAY = ['','初一','初二','初三','初四','初五','初六','初七','初八','初九','初十',
+    '十一','十二','十三','十四','十五','十六','十七','十八','十九','二十',
+    '廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十'];
+  var lunarFmt = null;
+  try {
+    if (Intl.DateTimeFormat.supportedLocalesOf(['zh-CN-u-ca-chinese']).length) {
+      lunarFmt = new Intl.DateTimeFormat('zh-CN-u-ca-chinese', { month:'long', day:'numeric' });
+    }
+  } catch (e) {}
   function tick() {
-    var d = new Date(), p = function (n) { return String(n).padStart(2, '0'); };
-    document.getElementById('time').textContent = p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
-    document.getElementById('date').textContent = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日 星期' + WD[d.getDay()];
+    var d = new Date(), txt = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日 星期' + WD[d.getDay()];
+    if (lunarFmt) {
+      var m = '', day = 0;
+      lunarFmt.formatToParts(d).forEach(function (p) {
+        if (p.type === 'month') m = p.value; else if (p.type === 'day') day = parseInt(p.value, 10);
+      });
+      if (m && day >= 1 && day <= 30) txt += ' 农历' + m + LUNAR_DAY[day];
+    }
+    document.getElementById('date').textContent = txt;
   }
-  tick(); setInterval(tick, 1000);
+  tick(); setInterval(tick, 30000);
 
   /* ---------- 站点图标（远程 favicon，加载失败显示字母） ---------- */
   document.querySelectorAll('.favi[data-domain]').forEach(function (el) {
