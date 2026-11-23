@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="梦飞的个人导航页 · Linux / 电子 / 数码 / 摄影 / 机械 常用站点与项目入口">
+<meta name="theme-color" content="#eef2fa">
+<link rel="icon" type="image/png" href="favicon.png">
 <title>梦飞的导航页</title>
 <style>
   :root {
@@ -160,17 +163,26 @@
     .meta .name { font-size:13.5px; }
     .meta .desc { display:none; }
   }
+
+  /* ---------- 尊重系统「减弱动态效果」偏好 ---------- */
+  @media (prefers-reduced-motion:reduce) {
+    .bh img { animation:none; }
+    .card { animation:none; transition:none; }
+    .project a { transition:none; }
+    .card:hover { transform:none; }
+    .project a:hover { transform:none; }
+  }
 </style>
 </head>
 <body>
-<canvas id="stars"></canvas>
+<canvas id="stars" aria-hidden="true"></canvas>
 
 <div class="wrap">
   <!-- 个人信息 -->
   <header class="hero">
-    <!-- 头像：PCB 电路板 + 机械齿轮中的 Tux（Linux × 电子电路 × 机械，程序化绘制） -->
-    <div class="bh" title="Linux · 电子电路 · 机械">
-      <img src="avatar-linux-ebm.png" alt="Linux 企鹅与电路齿轮头像">
+    <!-- 头像：PCB 电路板 + 机械齿轮中的 Tux -->
+    <div class="bh">
+      <img src="avatar-linux-ebm-256.webp" width="256" height="256" fetchpriority="high" alt="Linux 企鹅与电路齿轮头像">
     </div>
 
     <h1>梦飞</h1>
@@ -186,9 +198,10 @@
   </header>
 
   <!-- 导航区 -->
+  <main>
   <section class="panel">
   <!-- 导航站点 -->
-  <main class="grid" id="grid">
+  <div class="grid">
     <a class="card" data-cat="数码" href="https://www.chiphell.com" target="_blank" rel="noopener">
       <span class="favi" data-domain="www.chiphell.com"><span class="letter">C</span></span>
       <span class="meta"><span class="name"><i></i>Chiphell</span><span class="desc">高端发烧硬件 · 数码生活社区</span></span>
@@ -260,7 +273,7 @@
       <span class="favi" data-domain="500px.com.cn"><span class="letter">5</span></span>
       <span class="meta"><span class="name"><i></i>500px 摄影社区</span><span class="desc">高质量摄影作品平台</span></span>
     </a>
-  </main>
+  </div>
   </section>
 
   <!-- 个人项目 -->
@@ -286,6 +299,7 @@
       </a>
     </div>
   </section>
+  </main>
 
   <footer>© 2026 <b>梦飞</b> · ∞</footer>
 </div>
@@ -294,9 +308,10 @@
 (function () {
   /* ---------- 星空背景 ---------- */
   var cv = document.getElementById('stars'), ctx = cv.getContext('2d');
-  var stars = [], W, H, DPR = Math.min(window.devicePixelRatio || 1, 2);
+  var stars = [], W, H, raf = 0, rid = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   function starColor() {
-    return getComputedStyle(document.documentElement).getPropertyValue('--star').trim() || '#cfe0ff';
+    return getComputedStyle(document.documentElement).getPropertyValue('--star').trim() || '#6d8bc0';
   }
   var SC = starColor();
   function resize() {
@@ -309,8 +324,11 @@
         r: (Math.random() * 1.1 + .3) * DPR,
         p: Math.random() * Math.PI * 2, s: Math.random() * 1.2 + .3 });
     }
+    SC = starColor();
+    if (reduce.matches) play();
   }
   function draw(t) {
+    raf = 0;
     ctx.clearRect(0, 0, W, H);
     var tt = t / 1000;
     for (var i = 0; i < stars.length; i++) {
@@ -320,16 +338,30 @@
       ctx.beginPath(); ctx.arc(st.x, st.y, st.r, 0, 6.283); ctx.fill();
     }
     ctx.globalAlpha = 1;
-    requestAnimationFrame(draw);
+    if (!reduce.matches) raf = requestAnimationFrame(draw);
   }
-  addEventListener('resize', resize); resize(); requestAnimationFrame(draw);
+  /* 用户偏好「减弱动态效果」时只渲染一帧静态星空，不做持续动画 */
+  function play() {
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(draw);
+  }
+  addEventListener('resize', function () { clearTimeout(rid); rid = setTimeout(resize, 150); });
+  if (reduce.addEventListener) reduce.addEventListener('change', play);
+  else if (reduce.addListener) reduce.addListener(play);
+  resize(); play();
 
-  /* ---------- 站点图标（远程 favicon，加载失败显示字母） ---------- */
+  /* ---------- 站点图标（优先站点自身 favicon，失败退回字母） ---------- */
   document.querySelectorAll('.favi[data-domain]').forEach(function (el) {
-    var img = new Image();
-    img.onload = function () { el.textContent = ''; el.appendChild(img); };
-    img.onerror = function () { /* 保留字母图标 */ };
-    img.src = 'https://www.google.com/s2/favicons?domain=' + el.dataset.domain + '&sz=64';
+    var d = el.dataset.domain;
+    var sources = ['https://' + d + '/favicon.ico', 'https://icons.duckduckgo.com/ip3/' + d + '.ico'];
+    (function load(i) {
+      if (i >= sources.length) return;
+      var img = new Image();
+      img.referrerPolicy = 'no-referrer';
+      img.onload = function () { el.textContent = ''; el.appendChild(img); };
+      img.onerror = function () { load(i + 1); };
+      img.src = sources[i];
+    })(0);
   });
 })();
 </script>
