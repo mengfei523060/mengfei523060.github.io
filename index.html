@@ -61,13 +61,14 @@
   .hero h1 { font-size:26px; letter-spacing:2mm; text-shadow:0 2px 8px rgba(60,90,150,.35); }
   .badges {
     position:absolute; right:26px; bottom:18px;
-    display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:flex-end;
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:flex-end;
     color:#7b88a2;
   }
   .badges span {
     font-size:13px; display:inline-flex; align-items:center;
-    white-space:nowrap; gap:4px;
+    white-space:nowrap;
   }
+  .badges span:not(:last-child)::after { content:"·"; margin-left:8px; }
 
 
   /* ---------- 底部项目链接（面板背景 + 左对齐，一行一条） ---------- */
