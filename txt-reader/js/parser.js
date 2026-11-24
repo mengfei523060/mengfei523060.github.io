@@ -10,7 +10,8 @@ const Parser = (() => {
     try {
       return new TextDecoder("utf-8", { fatal: true }).decode(u8);
     } catch (e) {
-      try { return new TextDecoder("gbk").decode(u8); }
+      /* gb18030 是 gbk/gb2312 超集，覆盖生僻字四字节编码 */
+      try { return new TextDecoder("gb18030").decode(u8); }
       catch (e2) { return new TextDecoder("utf-8").decode(u8); }
     }
   }
@@ -107,9 +108,11 @@ const Parser = (() => {
     let t = name.replace(/\.txt$/i, "").trim();
     const wrapped = t.match(/[《〈](.+?)[》〉]/);
     if (wrapped) t = wrapped[1];
-    return t.replace(/[（(](?:精校|校对|完本|全文|完结|精校版)[^）)]*[）)]/g, "")
-            .replace(/[\s_]*(完结|全文阅读|校对版|精校版)[\s_]*$/g, "")
-            .trim() || name;
+    t = t.replace(/[（(](?:精校|校对|完本|全文|完结|精校版)[^）)]*[）)]/g, "");
+    /* 循环剥尾部标记，处理「全文完结」这类叠加大后缀 */
+    let prev;
+    do { prev = t; t = t.replace(/[\s_]*(完结|全文|全文阅读|校对版|精校版)[\s_]*$/g, "").trim(); } while (t !== prev);
+    return t || name;
   }
 
   return { decode, parse, titleFromFilename };

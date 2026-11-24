@@ -302,12 +302,16 @@
     drawerName = name;
     renderDrawer();
     els.drawer.classList.add("open");
+    els.drawer.setAttribute("aria-hidden", "false");
     els.scrim.classList.remove("hidden");
     requestAnimationFrame(() => els.scrim.classList.add("show"));
   }
   function closeDrawer() {
     drawerName = null;
+    /* 焦点若留在抽屉内，先清除，避免焦点被 aria-hidden 屏蔽 */
+    if (els.drawer.contains(document.activeElement)) document.activeElement.blur();
     els.drawer.classList.remove("open");
+    els.drawer.setAttribute("aria-hidden", "true");
     els.scrim.classList.remove("show");
     setTimeout(() => { if (!drawerName) els.scrim.classList.add("hidden"); }, 220);
   }

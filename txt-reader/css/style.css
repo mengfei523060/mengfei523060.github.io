@@ -237,9 +237,10 @@ body.no-chrome .r-foot { opacity: 0; transform: translateY(100%); pointer-events
   width: var(--drawer-w);
   background: var(--bg2); border-left: 1px solid var(--line);
   display: flex; flex-direction: column;
-  transform: translateX(105%); transition: transform .25s cubic-bezier(.3,.8,.4,1);
+  transform: translateX(105%); visibility: hidden;
+  transition: transform .25s cubic-bezier(.3,.8,.4,1), visibility 0s .25s;
 }
-.drawer.open { transform: translateX(0); }
+.drawer.open { transform: translateX(0); visibility: visible; transition: transform .25s cubic-bezier(.3,.8,.4,1), visibility 0s; }
 .drawer-head {
   flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between;
   padding: 16px 18px; border-bottom: 1px solid var(--line);
