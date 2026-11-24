@@ -42,7 +42,7 @@
       linear-gradient(120deg, #f2f7ff 0%, #fdf8f0 52%, #f4f1ff 100%);
     border:1px solid rgba(90,120,180,.22);
     border-radius:22px;
-    padding:38px 30px 32px;
+    padding:32px 30px 30px;
     text-align:center;
     box-shadow:var(--shadow);
   }
@@ -59,37 +59,16 @@
   }
 
   .hero h1 { font-size:26px; letter-spacing:1px; }
-  .badges { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:20px; }
+  .badges {
+    position:absolute; right:26px; bottom:18px;
+    display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:flex-end;
+    color:#7b88a2;
+  }
   .badges span {
-    font-size:13.5px; width:106px; padding:5px 6px; border-radius:16px;
-    display:inline-flex; align-items:center; justify-content:center;
-    white-space:nowrap; text-align:center; gap:5px;
-    background:rgba(20,40,80,.03); border:1px solid rgba(20,40,80,.04); color:var(--fg);
+    font-size:13px; display:inline-flex; align-items:center;
+    white-space:nowrap; gap:4px;
   }
-  .badges span svg { width:14px; height:14px; flex:none; }
   .hero-corner { position:absolute; left:28px; top:28px; font-size:13px; letter-spacing:2px; color:var(--muted); opacity:.85; }
-
-  /* ---------- 底部项目链接（面板背景 + 左对齐） ---------- */
-  .project {
-    display:flex; flex-direction:column; justify-content:flex-start; align-items:flex-start;
-    gap:14px;
-    margin-top:26px; padding:20px 26px;
-    background:linear-gradient(165deg, rgba(255,255,255,.66) 0%, rgba(238,244,253,.52) 60%, rgba(246,242,255,.55) 100%);
-    border:1px solid rgba(90,120,180,.18);
-    border-radius:22px;
-    box-shadow:var(--shadow);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-  }
-  .project a {
-    display:inline-flex; align-items:center; gap:12px; text-decoration:none;
-    font-size:15px; font-weight:600; color:var(--fg); transition:.2s;
-    flex-wrap:wrap; text-align:left; max-width:100%;
-  }
-  .project a:hover { color:#e8650f; transform:translateX(4px); }
-  .project svg { width:22px; height:22px; flex:none; }
-  .project small { font-weight:400; font-size:12.5px; color:var(--muted); }
-  .project .ast { color:var(--fg); font-weight:700; font-size:16px; line-height:1; }
 
   /* ---------- 本地站点（与导航区同款面板） ---------- */
   .card[data-cat="local"] { --acc:#f472b6; }
@@ -107,12 +86,12 @@
   }
 
   /* ---------- 站点卡片 ---------- */
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:18px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; }
   .card {
     --acc:#8fa3c8;
-    display:flex; align-items:center; gap:14px; text-decoration:none;
+    display:flex; align-items:flex-start; gap:14px; text-decoration:none;
     background:var(--card); border:1px solid var(--card-br);
-    border-radius:16px; padding:16px 18px; transition:transform .2s, box-shadow .2s, border-color .2s;
+    border-radius:16px; padding:11px 16px; transition:transform .2s, box-shadow .2s, border-color .2s;
     backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
     animation:pop .35s ease both;
   }
@@ -121,13 +100,14 @@
   .card[data-cat="linux"]   { --acc:#fbbf24; }
   .card[data-cat="科技"]    { --acc:#a78bfa; }
   .card[data-cat="摄影"]    { --acc:#34d399; }
+  .card[data-cat="项目"]    { --acc:#e8650f; }
   .card:hover {
     transform:translateY(-4px);
     border-color:color-mix(in srgb, var(--acc) 55%, transparent);
     box-shadow:0 12px 30px color-mix(in srgb, var(--acc) 16%, transparent);
   }
   .favi {
-    width:44px; height:44px; flex:none; border-radius:12px; overflow:hidden;
+    width:44px; height:44px; flex:none; border-radius:12px; overflow:hidden; align-self:center;
     display:flex; align-items:center; justify-content:center;
     background:color-mix(in srgb, var(--acc) 14%, transparent);
     border:1px solid color-mix(in srgb, var(--acc) 30%, transparent);
@@ -135,9 +115,9 @@
   .favi img { width:26px; height:26px; object-fit:contain; }
   .favi .letter { font-size:20px; font-weight:700; color:var(--acc); }
   .meta { flex:1; min-width:0; }
-  .meta .name { display:block; font-size:15px; font-weight:600; color:var(--fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .meta .name { display:block; font-size:15px; font-weight:600; color:var(--fg); line-height:1.5; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .meta .name i { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--acc); margin-right:8px; vertical-align:1px; font-style:normal; }
-  .meta .desc { display:block; font-size:12.5px; color:var(--muted); margin-top:7px; line-height:1.6; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .meta .desc { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; font-size:12.5px; color:var(--muted); margin-top:3px; line-height:1.45; overflow:hidden; }
 
   /* ---------- 页脚（与其他面板同款毛玻璃背景） ---------- */
   footer {
@@ -153,7 +133,8 @@
 
   @media (max-width:560px) {
     .wrap { padding:24px 14px; }
-    .hero { padding:28px 16px 24px; }
+    .hero { padding:26px 16px 24px; }
+    .badges { position:static; justify-content:center; margin-top:10px; }
     .hero-corner { left:24px; top:24px; }
     .panel { padding:18px 12px 20px; margin-top:18px; }
     footer { margin-top:16px; padding:13px 14px; }
@@ -168,9 +149,7 @@
   @media (prefers-reduced-motion:reduce) {
     .bh img { animation:none; }
     .card { animation:none; transition:none; }
-    .project a { transition:none; }
     .card:hover { transform:none; }
-    .project a:hover { transform:none; }
   }
 </style>
 </head>
@@ -187,11 +166,11 @@
 
     <h1>梦飞</h1>
     <div class="badges">
-      <span>🐧 Linux</span>
-      <span>📷 摄影</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>电子</span>
-      <span>📱 数码</span>
-      <span>⚙️ 机械</span>
+      <span>Linux</span>
+      <span>摄影</span>
+      <span>电子</span>
+      <span>数码</span>
+      <span>机械</span>
     </div>
 
     <div class="hero-corner">个人导航页</div>
@@ -281,22 +260,21 @@
   </section>
 
   <!-- 个人项目 -->
-  <section class="project">
-    <a href="https://github.com/mengfei523060/web-txt-reader2" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-      <span>web-txt-reader2</span>
-      <small>在线 TXT 小说阅读器 · GitHub 开源项目</small><span class="ast">*</span>
-    </a>
-    <a href="https://github.com/ophub/amlogic-s9xxx-armbian" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-      <span>amlogic-s9xxx-armbian</span>
-      <small>S9xxx 机顶盒 Armbian 固件 · 打包工具链</small>
-    </a>
-    <a href="https://github.com/Niko1221/Strata" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-      <span>Strata</span>
-      <small>Qwen3.8 本地推理引擎 · 消费级硬件一键安装 Win/Linux</small>
-    </a>
+  <section class="panel">
+    <div class="grid">
+      <a class="card" data-cat="项目" href="https://github.com/mengfei523060/web-txt-reader2" target="_blank" rel="noopener">
+        <span class="favi" data-icon="icon/github.com.svg"><span class="letter">G</span></span>
+        <span class="meta"><span class="name"><i></i>web-txt-reader2</span><span class="desc">在线 TXT 小说阅读器 · GitHub 开源</span></span>
+      </a>
+      <a class="card" data-cat="项目" href="https://github.com/ophub/amlogic-s9xxx-armbian" target="_blank" rel="noopener">
+        <span class="favi" data-icon="icon/github.com.svg"><span class="letter">G</span></span>
+        <span class="meta"><span class="name"><i></i>amlogic-s9xxx-armbian</span><span class="desc">S9xxx 机顶盒 Armbian 固件 · 打包工具链</span></span>
+      </a>
+      <a class="card" data-cat="项目" href="https://github.com/Niko1221/Strata" target="_blank" rel="noopener">
+        <span class="favi" data-icon="icon/github.com.svg"><span class="letter">G</span></span>
+        <span class="meta"><span class="name"><i></i>Strata</span><span class="desc">Qwen3.8 本地推理引擎 · 一键安装 Win/Linux</span></span>
+      </a>
+    </div>
   </section>
 
   <!-- 本地站点 -->
@@ -368,6 +346,7 @@
     (function load(i) {
       if (i >= sources.length) return;
       var img = new Image();
+      img.alt = '';
       img.referrerPolicy = 'no-referrer';
       img.onload = function () { el.textContent = ''; el.appendChild(img); };
       img.onerror = function () { load(i + 1); };
