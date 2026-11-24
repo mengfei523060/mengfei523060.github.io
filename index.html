@@ -48,7 +48,7 @@
     text-align:center;
     box-shadow:var(--shadow);
   }
-  /* 头像（Linux × 电子电路 × 机械） */
+  /* 头像（浅蓝圆底 + 官方 Tux + 电路/齿轮装饰） */
   .bh { position:relative; width:112px; height:112px; margin:0 auto 16px; border-radius:50%; }
   .bh img {
     width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; background:#f4f7fb;
@@ -64,13 +64,13 @@
   .badges {
     position:absolute; right:26px; bottom:18px;
     display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:flex-end;
-    color:#7b88a2;
+    color:var(--muted);
   }
-  .badges span {
+  .badges span, footer span {
     font-size:13px; display:inline-flex; align-items:center;
     white-space:nowrap;
   }
-  .badges span:not(:last-child)::after { content:"·"; margin-left:8px; }
+  .badges span:not(:last-child)::after, footer span:not(:last-child)::after { content:"·"; margin-left:8px; }
 
 
   /* ---------- 底部项目链接（面板背景 + 左对齐，一行一条） ---------- */
@@ -144,6 +144,7 @@
 
   /* ---------- 页脚（与其他面板同款毛玻璃背景） ---------- */
   footer {
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:center;
     text-align:center; color:var(--muted); font-size:13px; margin-top:12px; padding:16px 20px;
     background:linear-gradient(165deg, rgba(255,255,255,.66) 0%, rgba(238,244,253,.52) 60%, rgba(246,242,255,.55) 100%);
     border:1px solid rgba(90,120,180,.18);
@@ -152,12 +153,14 @@
     backdrop-filter:blur(12px);
     -webkit-backdrop-filter:blur(12px);
   }
-  footer .sep { margin:0 8px; }
 
+  /* 窄屏下徽章回到文档流居中，避免与标题水平相撞（断点高于 560 面板断点） */
+  @media (max-width:640px) {
+    .badges { position:static; justify-content:center; margin-top:10px; }
+  }
   @media (max-width:560px) {
     .wrap { padding:24px 14px; }
     .hero { padding:26px 16px 24px; }
-    .badges { position:static; justify-content:center; margin-top:10px; }
     .panel { padding:12px 10px; margin-top:12px; }
     footer { margin-top:12px; padding:13px 14px; }
     .grid { grid-template-columns:1fr 1fr; gap:10px; }
@@ -183,7 +186,7 @@
 <div class="wrap">
   <!-- 个人信息 -->
   <header class="hero">
-    <!-- 头像：PCB 电路板 + 机械齿轮中的 Tux -->
+    <!-- 头像：浅蓝圆底 + 官方 Tux 企鹅 -->
     <div class="bh">
       <img src="icon/avatar-linux-tux-256.webp" width="256" height="256" fetchpriority="high" alt="Linux Tux 企鹅头像">
     </div>
@@ -311,7 +314,7 @@
   </section>
   </main>
 
-  <footer>© 2026<span class="sep">·</span>梦飞个人导航<span class="sep">·</span>∞</footer>
+  <footer><span>© 2026</span><span>梦飞个人导航</span><span>∞</span></footer>
 </div>
 
 <script>
