@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="梦飞的个人导航页 · Linux / 电子 / 数码 / 摄影 / 机械 常用站点与项目入口">
+<meta name="description" content="梦飞的个人导航 · Linux / 电子 / 数码 / 摄影 / 机械 常用站点与项目入口">
 <meta name="theme-color" content="#eef2fa">
 <link rel="icon" type="image/png" href="icon/favicon.png">
-<title>梦飞的导航页</title>
+<title>梦飞的个人导航</title>
 <style>
   :root {
     --bg1:#eef2fa; --bg2:#dbe4f4;
@@ -58,7 +58,7 @@
     to   { box-shadow:0 0 0 1px rgba(150,165,195,.50), 0 0 26px 7px rgba(255,205,150,.40), 0 0 52px 18px rgba(140,170,255,.22); }
   }
 
-  .hero h1 { font-size:26px; letter-spacing:1px; }
+  .hero h1 { font-size:26px; letter-spacing:2mm; text-shadow:0 2px 8px rgba(60,90,150,.35); }
   .badges {
     position:absolute; right:26px; bottom:18px;
     display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:flex-end;
@@ -68,7 +68,28 @@
     font-size:13px; display:inline-flex; align-items:center;
     white-space:nowrap; gap:4px;
   }
-  .hero-corner { position:absolute; left:28px; top:28px; font-size:13px; letter-spacing:2px; color:var(--muted); opacity:.85; }
+
+
+  /* ---------- 底部项目链接（面板背景 + 左对齐，一行一条） ---------- */
+  .project {
+    display:flex; flex-direction:column; justify-content:flex-start; align-items:flex-start;
+    gap:14px;
+    margin-top:26px; padding:20px 26px;
+    background:linear-gradient(165deg, rgba(255,255,255,.66) 0%, rgba(238,244,253,.52) 60%, rgba(246,242,255,.55) 100%);
+    border:1px solid rgba(90,120,180,.18);
+    border-radius:22px;
+    box-shadow:var(--shadow);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+  }
+  .project a {
+    display:inline-flex; align-items:center; gap:12px; text-decoration:none;
+    font-size:15px; font-weight:600; color:var(--fg); transition:.2s;
+    flex-wrap:wrap; text-align:left; max-width:100%;
+  }
+  .project a:hover { color:#e8650f; transform:translateX(4px); }
+  .project img { width:22px; height:22px; flex:none; }
+  .project small { font-weight:400; font-size:12.5px; color:var(--muted); }
 
   /* ---------- 本地站点（与导航区同款面板） ---------- */
   .card[data-cat="local"] { --acc:#f472b6; }
@@ -100,7 +121,6 @@
   .card[data-cat="linux"]   { --acc:#fbbf24; }
   .card[data-cat="科技"]    { --acc:#a78bfa; }
   .card[data-cat="摄影"]    { --acc:#34d399; }
-  .card[data-cat="项目"]    { --acc:#e8650f; }
   .card:hover {
     transform:translateY(-4px);
     border-color:color-mix(in srgb, var(--acc) 55%, transparent);
@@ -135,7 +155,6 @@
     .wrap { padding:24px 14px; }
     .hero { padding:26px 16px 24px; }
     .badges { position:static; justify-content:center; margin-top:10px; }
-    .hero-corner { left:24px; top:24px; }
     .panel { padding:18px 12px 20px; margin-top:18px; }
     footer { margin-top:16px; padding:13px 14px; }
     .grid { grid-template-columns:1fr 1fr; gap:10px; }
@@ -150,6 +169,8 @@
     .bh img { animation:none; }
     .card { animation:none; transition:none; }
     .card:hover { transform:none; }
+    .project a { transition:none; }
+    .project a:hover { transform:none; }
   }
 </style>
 </head>
@@ -172,8 +193,6 @@
       <span>数码</span>
       <span>机械</span>
     </div>
-
-    <div class="hero-corner">个人导航页</div>
   </header>
 
   <!-- 导航区 -->
@@ -260,21 +279,22 @@
   </section>
 
   <!-- 个人项目 -->
-  <section class="panel">
-    <div class="grid">
-      <a class="card" data-cat="项目" href="https://github.com/mengfei523060/web-txt-reader2" target="_blank" rel="noopener">
-        <span class="favi" data-icon="icon/github.com.svg"><span class="letter">G</span></span>
-        <span class="meta"><span class="name"><i></i>web-txt-reader2</span><span class="desc">在线 TXT 小说阅读器 · GitHub 开源</span></span>
-      </a>
-      <a class="card" data-cat="项目" href="https://github.com/ophub/amlogic-s9xxx-armbian" target="_blank" rel="noopener">
-        <span class="favi" data-icon="icon/github.com.svg"><span class="letter">G</span></span>
-        <span class="meta"><span class="name"><i></i>amlogic-s9xxx-armbian</span><span class="desc">S9xxx 机顶盒 Armbian 固件 · 打包工具链</span></span>
-      </a>
-      <a class="card" data-cat="项目" href="https://github.com/Niko1221/Strata" target="_blank" rel="noopener">
-        <span class="favi" data-icon="icon/github.com.svg"><span class="letter">G</span></span>
-        <span class="meta"><span class="name"><i></i>Strata</span><span class="desc">Qwen3.8 本地推理引擎 · 一键安装 Win/Linux</span></span>
-      </a>
-    </div>
+  <section class="project">
+    <a href="https://github.com/mengfei523060/web-txt-reader2" target="_blank" rel="noopener">
+      <img src="icon/github.com.svg" alt="">
+      <span>web-txt-reader2</span>
+      <small>在线 TXT 小说阅读器 · GitHub 开源</small>
+    </a>
+    <a href="https://github.com/ophub/amlogic-s9xxx-armbian" target="_blank" rel="noopener">
+      <img src="icon/github.com.svg" alt="">
+      <span>amlogic-s9xxx-armbian</span>
+      <small>S9xxx 机顶盒 Armbian 固件 · 打包工具链</small>
+    </a>
+    <a href="https://github.com/Niko1221/Strata" target="_blank" rel="noopener">
+      <img src="icon/github.com.svg" alt="">
+      <span>Strata</span>
+      <small>Qwen3.8 本地推理引擎 · 一键安装 Win/Linux</small>
+    </a>
   </section>
 
   <!-- 本地站点 -->
@@ -288,7 +308,7 @@
   </section>
   </main>
 
-  <footer>© 2026 <b>梦飞</b> · ∞</footer>
+  <footer>© 2026 <b>梦飞</b> · 个人导航 · ∞</footer>
 </div>
 
 <script>
