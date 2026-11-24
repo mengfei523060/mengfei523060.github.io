@@ -142,7 +142,7 @@
 
   /* ---------- 页脚（与其他面板同款毛玻璃背景） ---------- */
   footer {
-    text-align:center; color:var(--muted); font-size:12.5px; margin-top:12px; padding:16px 20px;
+    text-align:center; color:var(--muted); font-size:13px; margin-top:12px; padding:16px 20px;
     background:linear-gradient(165deg, rgba(255,255,255,.66) 0%, rgba(238,244,253,.52) 60%, rgba(246,242,255,.55) 100%);
     border:1px solid rgba(90,120,180,.18);
     border-radius:22px;
@@ -150,7 +150,7 @@
     backdrop-filter:blur(12px);
     -webkit-backdrop-filter:blur(12px);
   }
-  footer b { color:var(--fg); }
+  footer .sep { margin:0 8px; }
 
   @media (max-width:560px) {
     .wrap { padding:24px 14px; }
@@ -309,7 +309,7 @@
   </section>
   </main>
 
-  <footer>© 2026 <b>梦飞</b> · 个人导航 · ∞</footer>
+  <footer>© 2026<span class="sep">·</span>梦飞个人导航<span class="sep">·</span>∞</footer>
 </div>
 
 <script>
