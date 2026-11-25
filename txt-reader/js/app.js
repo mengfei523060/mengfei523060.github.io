@@ -68,7 +68,11 @@
 
     const totalChars = books.reduce((n, b) => n + (b.chars || 0), 0);
     els.libStats.textContent = books.length ? `共 ${books.length} 本书 · ${fmtChars(totalChars)}` : "";
-    els.libEmpty.classList.toggle("hidden", books.length > 0);
+    const noResult = list.length === 0;
+    els.libEmpty.classList.toggle("hidden", !noResult);
+    els.libEmpty.querySelector("p").textContent = (noResult && books.length)
+      ? `没有找到与「${q}」相关的书名或作者`
+      : "书库还空着。点击「导入 TXT」，或直接把 .txt 小说拖进窗口。";
 
     els.grid.innerHTML = "";
     for (const b of list) {
