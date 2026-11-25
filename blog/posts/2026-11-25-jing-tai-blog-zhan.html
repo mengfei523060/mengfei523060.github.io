@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="不用框架和构建工具，几个 HTML 加一份 CSS 就能跑起来的个人 Blog 站。">
 <meta name="theme-color" content="#eef2fa">
-<link rel="icon" type="image/svg+xml" href="../../icon/favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../icon/favicon.png">
-<link rel="apple-touch-icon" href="../../icon/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="../icon/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../icon/favicon.png">
+<link rel="apple-touch-icon" href="../icon/apple-touch-icon.png">
 <title>教程：搭一个纯静态的日志站 · 梦飞 Blog</title>
 <link rel="stylesheet" href="../style.css">
 </head>
@@ -59,7 +59,7 @@
         <li>临时预览：<code>python3 -m http.server 8000</code>。</li>
       </ul>
 
-      <blockquote>注意：文章页里引用站点公共资源（favicon 等）用的是 <code>../../icon/</code> 相对路径，整个 <code>blog/</code> 目录挪到哪都不用改代码，但 <code>icon/</code> 目录必须和 <code>blog/</code> 保持同级。以后要独立成站，把 <code>icon/</code> 复制进 <code>blog/</code> 再改一下前缀即可。</blockquote>
+      <blockquote>注意：站点公共资源（favicon、头像等）已内置在 <code>blog/icon/</code> 里，列表页用 <code>icon/</code>、文章页用 <code>../icon/</code> 相对路径引用——<strong>整个 <code>blog/</code> 目录自包含</strong>，单独拖到 GitHub Pages、NAS 或任意静态托管都能直接跑，不需要再带上其他文件。</blockquote>
     </div>
   </article>
 
