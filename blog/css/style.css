@@ -109,7 +109,6 @@ body {
 }
 
 /* ---------- 文章页 ---------- */
-.art-wrap { max-width:820px; }
 .art-head { padding:22px 30px 18px; }
 .art-head .backlink { position:static; display:inline-block; margin-bottom:6px; }
 .art-head h1 { font-size:24px; line-height:1.5; }

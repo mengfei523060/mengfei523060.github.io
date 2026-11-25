@@ -23,11 +23,12 @@
 
   <article class="panel prose-panel">
     <div class="prose">
-      <p>起点是 <a href="https://github.com/Niko1221/Strata">Strata</a>：它让 Qwen3.8-Flash-Next 这类大 MoE 模型能跑在消费级硬件上——专家权重全部常驻内存，显卡只负责注意力和稠密部分。</p>
-      <p>专家权重加余量，<strong>128 GB 正好是 Strata 官方划定的线</strong>。所以整机要解决的首要问题不是"配一台电脑"，而是"怎么便宜地给机器装上 128 GB 内存"——平台、CPU、显卡，全都围绕这一条来定。</p>
+      <p>本地跑 AI 我一直没怎么去试。已有的主机只能跑 9B 级别的模型，玩不出什么花样；买 API 按 token 花钱，我是一直没这个打算；重新买主机，大显存显卡太贵，统一内存的主机也不便宜。小一点内存的统一内存主机，不管是 nvida,amd 还是 macos，价格也没便宜多少，而且只能跑 27b，35b 模型。看下来还是高不成低不就，这方面就一直没弄。</p>
+      <p>这次装机，起点是看到了 <a href="https://github.com/Niko1221/Strata">Strata</a>，它让 Qwen3.8-Flash-Next 这类大 MoE 模型能跑在消费级硬件上，专家权重常驻内存，而不是要完全搬进显卡显存。这样大内存+显存相对小一些的显卡也能跑大模型。</p>
+      <p>专家权重加余量，<strong>128 GB 内存是 Strata 比较甜点的大小 </strong>。所以价格受限的整机要解决的首要问题不是配一台电脑，而是怎么便宜地给机器装上 128 GB 内存，另外选一个相对合适的显卡，其他的硬件配合这两个就行。</p>
 
       <h2>平台：X99 + DDR3，低成本下大内存唯一选择</h2>
-      <p>新平台 128 GB DDR4、DDR5 的报价实在劝退，二手服务器市场则是另一个世界：<strong>E5-2686 v4</strong> 十六核，配<strong>华南 X99-AD3</strong>，四条 DDR3 ECC 32G 插满 128 GB，花费只要新平台的零头。四槽 DDR3 的带宽，对付 MoE 每 token 只激活几个专家的稀疏读取，够用。代价是这套平台没有升级余地。</p>
+      <p>新平台 128 GB DDR4、DDR5 的价格实在劝退，最后选择的配置：<strong>E5-2686 v4</strong> 十六核，配华南 X99-AD3，四条 DDR3 ECC 32G服务器二手内存 插满，总内存 128 GB，花费只要新平台的零头。代价是这套平台没有升级余地。</p>
 
       <h2>显卡：7900 XTX，否掉 5060 Ti 16G</h2>
       <p>便宜够用的显卡，二选一想得比较久：</p>
@@ -36,9 +37,9 @@
         <li><strong>7900 XTX 24G</strong>：带宽 960 GB/s 直接翻倍不止；更关键是 Strata 的 HIP 后端里 <strong>RX 7900 XTX 是维护者亲测</strong>那一档，Linux 下连 ROCm 都不用装，内核自带 amdgpu 就跑。显存多 8G，稠密权重、KV Cache 就多留 8G 在卡上，少来回搬 8G。</li>
       </ul>
 
-      <h2>按 GitHub Strata 上 install.sh 安装，安装完直接运行</h2>
-      <pre><code>strata launch    # 装完直接起服务</code></pre>
-      <p>量化选了 Unsloth 的 <strong>UD-Q4_K_XL</strong>：与 Q8_0 参考的 top-token 一致率 <strong>93.1%</strong>，比更小的 IQ4_XS 明显更稳，内存刚好落在 128 GB 的舒适区。开机自启、全天在线，写代码、跑 agent、随便折腾——token 不再按个算钱，才是这台主机的全部意义。</p>
+      <h2>系统装的 ubuntu, 装完系统按 GitHub 上 Strata 的说明 下载 install.sh 并执行安装，安装完直接运行</h2>
+      <pre><code>strata launch    # 运行后按提示选择模型参数开启服务，自带web窗口，其他app按API接入即可</code></pre>
+      <p>量化我选了 Unsloth 的 <strong>UD-Q4_K_XL</strong>：与 Q8_0 参考的 top-token 一致率 <strong>93.1%</strong>，比更小的 IQ4_XS 明显更稳，内存刚好落在 128 GB 的舒适区。开机自启、全天在线，写代码、跑 agent、随便折腾，token 不再按个算钱，才是这台主机的全部意义。</p>
 
       <h2>清单</h2>
       <ul>
@@ -46,7 +47,7 @@
         <li>华南 X99-AD3 主板（四槽 DDR3，插满）</li>
         <li>DDR3 ECC 32G × 4 = 128 GB</li>
         <li>Radeon RX 7900 XTX 24G（备选：RTX 5060 Ti 16G）</li>
-        <li>NVMe 1T（模型权重 111 GB，SSD 是备胎但要好）· 850W 电源 · 塔式散热</li>
+        <li>NVMe 1T · 850W 电源 · 塔式散热</li>
       </ul>
     </div>
   </article>

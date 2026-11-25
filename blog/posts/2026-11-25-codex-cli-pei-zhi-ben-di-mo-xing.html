@@ -8,7 +8,7 @@
 <link rel="icon" type="image/svg+xml" href="../icon/favicon.svg">
 <link rel="alternate icon" type="image/png" href="../icon/favicon.png">
 <link rel="apple-touch-icon" href="../icon/apple-touch-icon.png">
-<title>Codex CLI 配置本地大模型：config.toml 与 .env · 梦飞 Blog</title>
+<title>配置Codex CLI 接入本地大模型：修改 config.toml 与 .env · 梦飞 Blog</title>
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -17,13 +17,13 @@
 <div class="wrap art-wrap">
   <header class="panel art-head" data-cat="编程">
     <a class="backlink" href="../index.html">← 返回 Blog</a>
-    <h1>Codex CLI 配置本地大模型：config.toml 与 .env</h1>
+    <h1>配置Codex CLI 接入本地大模型：修改 config.toml 与 .env</h1>
     <div class="post-meta"><span class="tagpill">编程</span><time>2026-11-25</time></div>
   </header>
 
   <article class="panel prose-panel">
     <div class="prose">
-      <p>以 <strong>0.172.0</strong> 实测，只需要改两份文件，各添加几行本地 API 参数。</p>
+      <p>只需要改两份文件，各添加几行本地 API 参数，就可以随意使用 codex 写代码，不用考虑用了多少token。</p>
 
       <h2>1. config.toml</h2>
       <p>编辑 <code>~/.codex/config.toml</code>，添加：</p>
@@ -41,9 +41,6 @@ wire_api = "responses"                   # 0.172 起只支持 responses（chat �
       <p>项目根目录（或家目录）建 <code>.env</code>，写入 <code>env_key</code> 指向的变量：</p>
       <pre><code># .env
 LOCAL_API_KEY=lm-studio                  # LM Studio / Ollama 不校验 Key，非空即可</code></pre>
-      <p>Codex 不自动读取 <code>.env</code>，跑之前把它导入环境变量：</p>
-      <pre><code>set -a; source .env; set +a              # 或交给 direnv 自动加载</code></pre>
-
       <blockquote>生效检查：<code>codex</code> 启动后 <code>/status</code> 应显示 <code>model: qwen3-30b</code>、<code>provider: local</code>；报 <code>wire_api = "chat" is no longer supported</code> 就把 <code>wire_api</code> 改成 <code>"responses"</code>。</blockquote>
     </div>
   </article>
