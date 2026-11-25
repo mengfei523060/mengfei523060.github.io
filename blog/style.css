@@ -73,13 +73,15 @@ body {
 }
 .panel-title { font-size:14px; letter-spacing:1px; color:var(--muted); padding:4px 8px 12px; }
 
-/* ---------- 文章卡片 ---------- */
-.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; }
+/* ---------- 文章卡片（一行一条，条内两行：首行 标签+标题+日期，次行 摘要） ---------- */
+.grid { display:grid; grid-template-columns:1fr; gap:12px; }
 .card {
   --acc:#8fa3c8;
-  display:block; text-decoration:none; color:inherit;
+  display:grid; grid-template-columns:auto 1fr auto;
+  align-items:center; column-gap:12px; row-gap:2px;
+  text-decoration:none; color:inherit;
   background:var(--card); border:1px solid var(--card-br);
-  border-radius:16px; padding:14px 16px 12px;
+  border-radius:16px; padding:10px 16px 11px;
   transition:transform .2s, box-shadow .2s, border-color .2s;
   backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
   animation:pop .35s ease both;
@@ -96,15 +98,15 @@ body {
   border-color:color-mix(in srgb, var(--acc) 55%, transparent);
   box-shadow:0 12px 30px color-mix(in srgb, var(--acc) 16%, transparent);
 }
-.card .tag { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--acc); font-weight:600; }
+.card .tag { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:#000; font-weight:600; }
 .card .tag i { width:7px; height:7px; border-radius:50%; background:var(--acc); }
-.card h3 { font-size:15px; font-weight:600; margin-top:6px; line-height:1.5; }
+.card h3 { font-size:15px; font-weight:600; line-height:1.5; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.card time { font-size:12px; color:var(--muted); opacity:.85; grid-column:3; grid-row:1; }
 .card p {
-  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
-  font-size:12.5px; color:var(--muted); margin-top:3px; line-height:1.45;
+  grid-column:1 / -1;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  font-size:12.5px; color:var(--muted);
 }
-.card .row2 { display:flex; align-items:center; justify-content:space-between; margin-top:8px; }
-.card time { font-size:12px; color:var(--muted); opacity:.85; }
 
 /* ---------- 文章页 ---------- */
 .art-wrap { max-width:820px; }
