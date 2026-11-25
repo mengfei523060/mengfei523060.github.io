@@ -9,7 +9,7 @@
 <link rel="alternate icon" type="image/png" href="../icon/favicon.png">
 <link rel="apple-touch-icon" href="../icon/apple-touch-icon.png">
 <title>教程：搭一个纯静态的日志站 · 梦飞 Blog</title>
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 <canvas id="stars" aria-hidden="true"></canvas>
@@ -28,8 +28,9 @@
       <h2>1. 目录结构</h2>
       <pre><code>blog/
 ├── index.html     列表页：hero + 文章卡片网格
-├── style.css      全站共享样式（一个文件）
-├── stars.js       星空 canvas 背景（可选，不要可删）
+├── css/style.css  全站共享样式（一个文件）
+├── js/stars.js    星空 canvas 背景（可选，不要可删）
+├── icon/          favicon 与头像（自包含）
 └── posts/
     └── 2026-11-25-xxx.html   一篇文章一个文件</code></pre>
       <p>文章文件名建议 <code>日期-标题拼音.html</code>，天然按时间排序，也方便以后迁移。</p>
@@ -66,6 +67,6 @@
   <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
 </div>
 
-<script src="../stars.js"></script>
+<script src="../js/stars.js"></script>
 </body>
 </html>

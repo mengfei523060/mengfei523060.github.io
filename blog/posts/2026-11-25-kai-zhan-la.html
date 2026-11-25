@@ -9,7 +9,7 @@
 <link rel="alternate icon" type="image/png" href="../icon/favicon.png">
 <link rel="apple-touch-icon" href="../icon/apple-touch-icon.png">
 <title>开站啦，这里是我的 Blog · 梦飞 Blog</title>
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 <canvas id="stars" aria-hidden="true"></canvas>
@@ -40,10 +40,11 @@
       <h2>怎么组织的</h2>
       <p>目录结构简单到一句话能说完：</p>
       <pre><code>blog/
-├── index.html     ← 文章列表
-├── style.css      ← 全站样式
-├── stars.js       ← 星空背景
-└── posts/         ← 一篇文章一个 HTML</code></pre>
+├── index.html       ← 文章列表
+├── css/style.css    ← 全站样式
+├── js/stars.js      ← 星空背景
+├── icon/            ← favicon 与头像（自包含）
+└── posts/           ← 一篇文章一个 HTML</code></pre>
       <p>发新文章就是复制一个模板、写正文、在列表页加一张卡片。具体做法写在《教程：搭一个纯静态的日志站》里。</p>
 
       <blockquote>入口在导航页「拾光阅读」旁边，欢迎常来坐坐。</blockquote>
@@ -53,6 +54,6 @@
   <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
 </div>
 
-<script src="../stars.js"></script>
+<script src="../js/stars.js"></script>
 </body>
 </html>
