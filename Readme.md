@@ -1,7 +1,6 @@
 # 网络导航
 https://mengfei523060.github.io/
 
-<img width="1042" height="237" alt="QQ_2026-11-25_15-08-59" src="https://github.com/user-attachments/assets/7a7f3a5e-8bc1-4f1e-bd2d-b0b6c157a709" />
 
 ## 方案说明
 
@@ -20,7 +19,6 @@ https://mengfei523060.github.io/
 │   ├── style.css / stars.js
 │   └── posts/      一篇文章一个 HTML（日期-标题.html）
 ├── txt-reader/     拾光阅读子站（TXT 小说阅读器）
-└── *.py / *.sh     图标抓取、头像与 favicon 生成的辅助脚本
 ```
 
 ### 视觉方案
