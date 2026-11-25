@@ -1,0 +1,177 @@
+/* ============================================================
+   梦飞的网络导航 —— 全站样式
+   ============================================================ */
+:root {
+  --bg1:#eef2fa; --bg2:#dbe4f4;
+  --fg:#1b2438; --muted:#5b6a85;
+  --card:rgba(255,255,255,.78); --card-br:rgba(20,40,80,.10);
+  --input:rgba(20,40,80,.06);
+  --star:#6d8bc0;
+  --shadow:0 10px 28px rgba(60,90,150,.14);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { color-scheme: light; }
+body {
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  color:var(--fg);
+  background:
+    radial-gradient(1100px 700px at 15% -10%, rgba(56,120,255,.16), transparent 60%),
+    radial-gradient(900px 600px at 95% 8%, rgba(255,140,60,.10), transparent 55%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+  background-attachment:fixed;
+  min-height:100vh;
+  line-height:1.7;
+}
+#stars { position:fixed; inset:0; z-index:0; pointer-events:none; }
+.wrap { position:relative; z-index:1; max-width:1080px; margin:0 auto; padding:40px 20px 30px; }
+
+/* ---------- 顶部个人信息 ---------- */
+/* 简介卡背景：冷暖渐变 */
+.hero {
+  position:relative;
+  background:
+    radial-gradient(640px 320px at 88% -8%, rgba(56,189,248,.17), transparent 62%),
+    radial-gradient(560px 320px at 6% 110%, rgba(251,160,60,.18), transparent 62%),
+    linear-gradient(120deg, #f2f7ff 0%, #fdf8f0 52%, #f4f1ff 100%);
+  border:1px solid rgba(90,120,180,.22);
+  border-radius:22px;
+  padding:32px 30px 30px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+/* 头像（浅蓝圆底 + 官方 Tux + 电路/齿轮装饰） */
+.bh { position:relative; width:112px; height:112px; margin:0 auto 16px; border-radius:50%; }
+.bh img {
+  width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; background:#f4f7fb;
+  box-shadow:0 0 0 1px rgba(150,165,195,.40), 0 0 20px 4px rgba(255,205,150,.30), 0 0 44px 14px rgba(140,170,255,.16);
+  animation:pulse 5s ease-in-out infinite alternate;
+}
+@keyframes pulse {
+  from { box-shadow:0 0 0 1px rgba(150,165,195,.32), 0 0 14px 2px rgba(255,205,150,.20), 0 0 34px 10px rgba(140,170,255,.10); }
+  to   { box-shadow:0 0 0 1px rgba(150,165,195,.50), 0 0 26px 7px rgba(255,205,150,.40), 0 0 52px 18px rgba(140,170,255,.22); }
+}
+
+.hero h1 { font-size:26px; letter-spacing:2mm; text-shadow:0 2px 8px rgba(60,90,150,.35); }
+.badges {
+  position:absolute; right:26px; bottom:18px;
+  display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:flex-end;
+  color:var(--muted);
+}
+.badges span, footer span {
+  font-size:13px; display:inline-flex; align-items:center;
+  white-space:nowrap;
+}
+.badges span:not(:last-child)::after, footer span:not(:last-child)::after { content:"·"; margin-left:8px; }
+
+/* ---------- 分区标题 ---------- */
+.panel-title { font-size:14px; letter-spacing:1px; color:var(--muted); padding:4px 8px 12px; }
+.project .panel-title { padding:0 0 2px; }
+
+
+/* ---------- 底部项目链接（面板背景 + 左对齐，一行一条） ---------- */
+.project {
+  display:flex; flex-direction:column; justify-content:flex-start; align-items:flex-start;
+  gap:14px;
+  margin-top:12px; padding:20px 26px;
+  background:linear-gradient(165deg, rgba(255,255,255,.66) 0%, rgba(238,244,253,.52) 60%, rgba(246,242,255,.55) 100%);
+  border:1px solid rgba(90,120,180,.18);
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.project a {
+  display:inline-flex; align-items:center; gap:12px; text-decoration:none;
+  font-size:15px; font-weight:600; color:var(--fg); transition:.2s;
+  flex-wrap:wrap; text-align:left; max-width:100%;
+}
+.project a:hover { color:#e8650f; transform:translateX(4px); }
+.project img { width:22px; height:22px; flex:none; }
+.project small { font-weight:400; font-size:12.5px; color:var(--muted); }
+.project .ast { color:#000; font-size:12px; font-weight:700; line-height:0; margin-left:.5px; }
+.project .tri { color:#000; font-size:10px; font-weight:700; line-height:1; margin-left:.5px; }
+
+/* ---------- 本地站点（与导航区同款面板） ---------- */
+.card[data-cat="local"] { --acc:#f472b6; }
+
+/* ---------- 导航区背景面板 ---------- */
+.panel {
+  background:linear-gradient(165deg, rgba(255,255,255,.66) 0%, rgba(238,244,253,.52) 60%, rgba(246,242,255,.55) 100%);
+  border:1px solid rgba(90,120,180,.18);
+  border-radius:22px;
+  padding:16px;
+  margin-top:12px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+
+/* ---------- 站点卡片 ---------- */
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; }
+.card {
+  --acc:#8fa3c8;
+  display:flex; align-items:flex-start; gap:14px; text-decoration:none;
+  background:var(--card); border:1px solid var(--card-br);
+  border-radius:16px; padding:11px 16px; transition:transform .2s, box-shadow .2s, border-color .2s;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  animation:pop .35s ease both;
+}
+@keyframes pop { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+.card[data-cat="数码"]    { --acc:#38bdf8; }
+.card[data-cat="linux"]   { --acc:#fbbf24; }
+.card[data-cat="科技"]    { --acc:#a78bfa; }
+.card[data-cat="摄影"]    { --acc:#34d399; }
+.card:hover {
+  transform:translateY(-4px);
+  border-color:color-mix(in srgb, var(--acc) 55%, transparent);
+  box-shadow:0 12px 30px color-mix(in srgb, var(--acc) 16%, transparent);
+}
+.favi {
+  width:44px; height:44px; flex:none; border-radius:12px; overflow:hidden; align-self:center;
+  display:flex; align-items:center; justify-content:center;
+  background:color-mix(in srgb, var(--acc) 14%, transparent);
+  border:1px solid color-mix(in srgb, var(--acc) 30%, transparent);
+}
+.favi img { width:26px; height:26px; object-fit:contain; }
+.favi .letter { font-size:20px; font-weight:700; color:var(--acc); }
+.meta { flex:1; min-width:0; }
+.meta .name { display:block; font-size:15px; font-weight:600; color:var(--fg); line-height:1.5; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.meta .name i { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--acc); margin-right:8px; vertical-align:1px; font-style:normal; }
+.meta .desc { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; font-size:12.5px; color:var(--muted); margin-top:3px; line-height:1.45; overflow:hidden; }
+
+/* ---------- 页脚（与其他面板同款毛玻璃背景） ---------- */
+footer {
+  display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:center;
+  text-align:center; color:var(--muted); font-size:13px; margin-top:12px; padding:16px 20px;
+  background:linear-gradient(165deg, rgba(255,255,255,.66) 0%, rgba(238,244,253,.52) 60%, rgba(246,242,255,.55) 100%);
+  border:1px solid rgba(90,120,180,.18);
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+
+/* 窄屏下徽章回到文档流居中，避免与标题水平相撞（断点高于 560 面板断点） */
+@media (max-width:640px) {
+  .badges { position:static; justify-content:center; margin-top:10px; }
+}
+@media (max-width:560px) {
+  .wrap { padding:24px 14px; }
+  .hero { padding:26px 16px 24px; }
+  .panel { padding:12px 10px; margin-top:12px; }
+  footer { margin-top:12px; padding:13px 14px; }
+  .grid { grid-template-columns:1fr 1fr; gap:10px; }
+  .card { padding:12px; gap:10px; }
+  .favi { width:38px; height:38px; }
+  .meta .name { font-size:13.5px; }
+  .meta .desc { display:none; }
+}
+
+/* ---------- 尊重系统「减弱动态效果」偏好 ---------- */
+@media (prefers-reduced-motion:reduce) {
+  .bh img { animation:none; }
+  .card { animation:none; transition:none; }
+  .card:hover { transform:none; }
+  .project a { transition:none; }
+  .project a:hover { transform:none; }
+}

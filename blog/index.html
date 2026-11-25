@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="梦飞的 Blog · 日常 / 学习 / 运维 / 资讯 / 编程 记录与教程">
+<meta name="theme-color" content="#eef2fa">
+<link rel="icon" type="image/svg+xml" href="../icon/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../icon/favicon.png">
+<link rel="apple-touch-icon" href="../icon/apple-touch-icon.png">
+<title>梦飞的 Blog</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="wrap">
+  <!-- 简介区（与导航页一致） -->
+  <header class="hero">
+    <a class="backlink" href="../index.html">← 返回导航</a>
+    <div class="bh">
+      <img src="../icon/avatar-linux-tux-256.webp" width="256" height="256" fetchpriority="high" alt="Linux Tux 企鹅头像">
+    </div>
+    <h1>梦飞</h1>
+    <div class="badges">
+      <span>日常</span>
+      <span>学习</span>
+      <span>运维</span>
+      <span>资讯</span>
+      <span>编程</span>
+    </div>
+  </header>
+
+  <!-- 文章列表 -->
+  <main>
+  <section class="panel">
+    <div class="panel-title">最新文章</div>
+    <div class="grid">
+      <a class="card" data-cat="日常" href="posts/2026-11-25-kai-zhan-la.html">
+        <span class="tag"><i></i>日常</span>
+        <h3>开站啦，这里是我的 Blog</h3>
+        <p>为什么在导航页旁边开一个日志站，以及它打算装些什么内容。</p>
+        <div class="row2"><time>2026-11-25</time></div>
+      </a>
+      <a class="card" data-cat="编程" href="posts/2026-11-25-jing-tai-blog-zhan.html">
+        <span class="tag"><i></i>编程</span>
+        <h3>教程：搭一个纯静态的日志站</h3>
+        <p>不用任何框架和构建工具，几个 HTML 加一份 CSS 就能跑起来的个人 Blog。</p>
+        <div class="row2"><time>2026-11-25</time></div>
+      </a>
+      <a class="card" data-cat="学习" href="posts/2026-11-24-linux-xue-xi-lu-xian.html">
+        <span class="tag"><i></i>学习</span>
+        <h3>我的 Linux 学习路线笔记</h3>
+        <p>从基础命令到系统管理、网络与 shell，分阶段的目标和资源清单。</p>
+        <div class="row2"><time>2026-11-24</time></div>
+      </a>
+      <a class="card" data-cat="运维" href="posts/2026-11-23-jia-ting-fu-wu-qi-yun-wei.html">
+        <span class="tag"><i></i>运维</span>
+        <h3>家庭服务器日常运维清单</h3>
+        <p>每周、每月该做什么：备份、磁盘健康、更新与日志巡检，照着过一遍就行。</p>
+        <div class="row2"><time>2026-11-23</time></div>
+      </a>
+    </div>
+  </section>
+  </main>
+
+  <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
+</div>
+
+<script src="stars.js"></script>
+</body>
+</html>

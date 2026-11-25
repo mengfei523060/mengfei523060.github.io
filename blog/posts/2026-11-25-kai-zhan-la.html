@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="为什么在导航页旁边开一个日志站，以及它打算装些什么内容。">
+<meta name="theme-color" content="#eef2fa">
+<link rel="icon" type="image/svg+xml" href="../../icon/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../icon/favicon.png">
+<link rel="apple-touch-icon" href="../../icon/apple-touch-icon.png">
+<title>开站啦，这里是我的 Blog · 梦飞 Blog</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="wrap art-wrap">
+  <header class="panel art-head" data-cat="日常">
+    <a class="backlink" href="../index.html">← 返回 Blog</a>
+    <h1>开站啦，这里是我的 Blog</h1>
+    <div class="post-meta"><span class="tagpill">日常</span><time>2026-11-25</time></div>
+  </header>
+
+  <article class="panel prose-panel">
+    <div class="prose">
+      <p>导航页用了一段时间，总觉得还缺点什么：平时折腾的点东西、踩的坑、想记的事，放在收藏夹里很快就找不到了。于是给导航页加了个入口——这个 <strong>Blog 站</strong>。</p>
+
+      <h2>它是什么</h2>
+      <p>一个<strong>纯静态</strong>的日志 / 教程站，和导航页同一套视觉：星空背景、毛玻璃卡片、浅色主题。没有数据库、没有构建工具，打开即用，丢到任何静态托管（GitHub Pages、NAS、软路由里的 Web服务）都能跑。</p>
+
+      <h2>打算写什么</h2>
+      <ul>
+        <li><strong>日常</strong> —— 折腾记录、生活随笔</li>
+        <li><strong>学习</strong> —— 学习笔记、路线规划</li>
+        <li><strong>运维</strong> —— 家庭服务器、NAS、路由器的维护经验</li>
+        <li><strong>资讯</strong> —— 看到值得存的行业消息，顺手记一笔</li>
+        <li><strong>编程</strong> —— 小工具、脚本、教程</li>
+      </ul>
+
+      <h2>怎么组织的</h2>
+      <p>目录结构简单到一句话能说完：</p>
+      <pre><code>blog/
+├── index.html     ← 文章列表
+├── style.css      ← 全站样式
+├── stars.js       ← 星空背景
+└── posts/         ← 一篇文章一个 HTML</code></pre>
+      <p>发新文章就是复制一个模板、写正文、在列表页加一张卡片。具体做法写在《教程：搭一个纯静态的日志站》里。</p>
+
+      <blockquote>入口在导航页「拾光阅读」旁边，欢迎常来坐坐。</blockquote>
+    </div>
+  </article>
+
+  <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
+</div>
+
+<script src="../stars.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="从基础命令到系统管理、网络与 shell，分阶段的目标和资源清单。">
+<meta name="theme-color" content="#eef2fa">
+<link rel="icon" type="image/svg+xml" href="../../icon/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../icon/favicon.png">
+<link rel="apple-touch-icon" href="../../icon/apple-touch-icon.png">
+<title>我的 Linux 学习路线笔记 · 梦飞 Blog</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="wrap art-wrap">
+  <header class="panel art-head" data-cat="学习">
+    <a class="backlink" href="../index.html">← 返回 Blog</a>
+    <h1>我的 Linux 学习路线笔记</h1>
+    <div class="post-meta"><span class="tagpill">学习</span><time>2026-11-24</time></div>
+  </header>
+
+  <article class="panel prose-panel">
+    <div class="prose">
+      <p>零散学过很多次，这次给自己理一条<strong>按阶段走</strong>的路线，每阶段有明确目标和验收标准，学完打勾。</p>
+
+      <h2>阶段一：日常使用与基础命令</h2>
+      <ul>
+        <li>装一台虚拟机（Ubuntu Server 或 Debian），全程只用终端；</li>
+        <li>文件与目录：<code>ls cd cp mv rm mkdir find grep</code>；</li>
+        <li>查看与编辑：<code>cat less head tail nano vim</code>；</li>
+        <li>权限：<code>chmod chown</code>、用户与组的概念；</li>
+        <li>验收：能盲打完成「找文件 → 改内容 → 挪位置 → 设权限」整套操作。</li>
+      </ul>
+
+      <h2>阶段二：系统管理</h2>
+      <ul>
+        <li><code>systemctl</code> 管理服务、<code>journalctl</code> 查日志；</li>
+        <li><code>apt</code> / <code>dpkg</code> 装包与来源管理；</li>
+        <li>磁盘：<code>df du lsblk fdisk</code>，挂载与 fstab；</li>
+        <li>进程：<code>ps top htop kill nice</code>；</li>
+        <li>验收：给自己的服务写一个 systemd unit，开机自启。</li>
+      </ul>
+
+      <h2>阶段三：网络</h2>
+      <ul>
+        <li><code>ip ss ping curl dig</code> 排查连通性；</li>
+        <li>防火墙 <code>nftables/ufw</code>、SSH 加固（密钥登录、禁密码）；</li>
+        <li>反向代理 nginx 入门，配合内网服务做 HTTPS；</li>
+        <li>验收：从外网安全访问家里的一项服务。</li>
+      </ul>
+
+      <h2>阶段四：Shell 与自动化</h2>
+      <ul>
+        <li>bash 变量、条件、循环、函数；</li>
+        <li><code>cron</code> 定时任务、日志轮转 <code>logrotate</code>；</li>
+        <li>用脚本把重复操作固化下来（备份、巡检、批量改名）；</li>
+        <li>验收：至少三个在跑的自动化脚本。</li>
+      </ul>
+
+      <h2>常备资源</h2>
+      <ul>
+        <li>Arch Wiki —— 发行版无关的高质量文档；</li>
+        <li>Ubuntu 中文论坛 —— 中文环境问题基本都有答案；</li>
+        <li><code>man</code> 与 <code>tldr</code> —— 手册与速查。</li>
+      </ul>
+
+      <blockquote>路线是死的，需求是活的：每次被现实问题卡住，就是最好的学习时机。</blockquote>
+    </div>
+  </article>
+
+  <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
+</div>
+
+<script src="../stars.js"></script>
+</body>
+</html>

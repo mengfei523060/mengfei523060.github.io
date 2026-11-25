@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="家庭服务器每周、每月该做什么：备份、磁盘健康、更新与日志巡检清单。">
+<meta name="theme-color" content="#eef2fa">
+<link rel="icon" type="image/svg+xml" href="../../icon/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../icon/favicon.png">
+<link rel="apple-touch-icon" href="../../icon/apple-touch-icon.png">
+<title>家庭服务器日常运维清单 · 梦飞 Blog</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="wrap art-wrap">
+  <header class="panel art-head" data-cat="运维">
+    <a class="backlink" href="../index.html">← 返回 Blog</a>
+    <h1>家庭服务器日常运维清单</h1>
+    <div class="post-meta"><span class="tagpill">运维</span><time>2026-11-23</time></div>
+  </header>
+
+  <article class="panel prose-panel">
+    <div class="prose">
+      <p>家里跑着 NAS、软路由和一两台常开的机器，宕了没人知道。这份清单照抄就行——<strong>每周十分钟，每月半小时</strong>，能避免 90% 的家庭翻车事故。</p>
+
+      <h2>每周过一遍（约 10 分钟）</h2>
+      <ul>
+        <li><strong>备份验证</strong> —— 备份任务是否全部成功；最关键的数据<strong>恢复一次试试</strong>（没验证过的备份不算备份）；</li>
+        <li><strong>磁盘健康</strong> —— <code>smartctl -H /dev/sdX</code> 全绿，<code>df -h</code> 各分区余量 &gt; 15%；</li>
+        <li><strong>日志巡检</strong> —— <code>journalctl -p err -S -7d</code> 看一眼最近一周的 error 级日志；</li>
+        <li><strong>服务连通</strong> —— 内网穿透 / 域名解析 / 各 Web 服务手动打开一遍。</li>
+      </ul>
+
+      <h2>每月过一遍（约 30 分钟）</h2>
+      <ul>
+        <li><strong>系统与固件</strong> —— <code>apt update &amp;&amp; apt upgrade</code>；主板 / 路由器固件看有无安全更新；</li>
+        <li><strong>安全面检查</strong> —— SSH 是否仍禁密码、有没有多余端口暴露到公网、TLS 证书有效期；</li>
+        <li><strong>照片与文档</strong> —— 重要数据「3-2-1」三 copies 是否齐全（本地 NAS、异地、冷备各一份）；</li>
+        <li><strong>物理清洁</strong> —— 灰尘、风扇、温度：满载时 <code>sensors</code> 看一眼。</li>
+      </ul>
+
+      <h2>顺手自动化</h2>
+      <pre><code># crontab -e：每周日 9 点跑巡检脚本，结果发通知
+0 9 * * 0 /opt/scripts/weekly-check.sh | /opt/scripts/notify.sh</code></pre>
+      <p>巡检脚本里就放上面那几条命令，把输出重定向到日志、异常时推一条消息，把「记得做」变成「不用记」。</p>
+
+      <blockquote>运维的尽头是清单和自动化：好记性不如一个每周日九点的 cron。</blockquote>
+    </div>
+  </article>
+
+  <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
+</div>
+
+<script src="../stars.js"></script>
+</body>
+</html>

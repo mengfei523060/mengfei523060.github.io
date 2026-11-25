@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="不用框架和构建工具，几个 HTML 加一份 CSS 就能跑起来的个人 Blog 站。">
+<meta name="theme-color" content="#eef2fa">
+<link rel="icon" type="image/svg+xml" href="../../icon/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../icon/favicon.png">
+<link rel="apple-touch-icon" href="../../icon/apple-touch-icon.png">
+<title>教程：搭一个纯静态的日志站 · 梦飞 Blog</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="wrap art-wrap">
+  <header class="panel art-head" data-cat="编程">
+    <a class="backlink" href="../index.html">← 返回 Blog</a>
+    <h1>教程：搭一个纯静态的日志站</h1>
+    <div class="post-meta"><span class="tagpill">编程</span><time>2026-11-25</time></div>
+  </header>
+
+  <article class="panel prose-panel">
+    <div class="prose">
+      <p>这个 Blog 站本身就是一个现成例子：没有任何框架、没有构建步骤，<strong>四个部分</strong>就能跑。这篇教程带你从零搭一遍。</p>
+
+      <h2>1. 目录结构</h2>
+      <pre><code>blog/
+├── index.html     列表页：hero + 文章卡片网格
+├── style.css      全站共享样式（一个文件）
+├── stars.js       星空 canvas 背景（可选，不要可删）
+└── posts/
+    └── 2026-11-25-xxx.html   一篇文章一个文件</code></pre>
+      <p>文章文件名建议 <code>日期-标题拼音.html</code>，天然按时间排序，也方便以后迁移。</p>
+
+      <h2>2. 列表页</h2>
+      <p>列表页就是一张张卡片，每张卡片链接到 <code>posts/</code> 下的文章：</p>
+      <pre><code>&lt;a class="card" data-cat="日常" href="posts/xxx.html"&gt;
+  &lt;span class="tag"&gt;&lt;i&gt;&lt;/i&gt;日常&lt;/span&gt;
+  &lt;h3&gt;文章标题&lt;/h3&gt;
+  &lt;p&gt;一句话摘要。&lt;/p&gt;
+  &lt;div class="row2"&gt;&lt;time&gt;2026-11-25&lt;/time&gt;&lt;/div&gt;
+&lt;/a&gt;</code></pre>
+      <p><code>data-cat</code> 决定这张卡片的强调色（日常粉 / 学习紫 / 运维黄 / 资讯蓝 / 编程绿），CSS 里一行 <code>[data-cat="xx"] { --acc:#xxx }</code> 就够了。</p>
+
+      <h2>3. 发新文章</h2>
+      <ol>
+        <li>复制任意一篇旧文章到 <code>posts/</code>，改文件名；</li>
+        <li>改 <code>&lt;title&gt;</code>、<code>description</code>、<code>data-cat</code>、标题、日期、正文；</li>
+        <li>在 <code>index.html</code> 的 <code>.grid</code> 里加一张卡片（放最前面即最新）。</li>
+      </ol>
+
+      <h2>4. 部署</h2>
+      <p>本地双击 <code>index.html</code> 就能看。挂上网络任选其一：</p>
+      <ul>
+        <li><strong>GitHub Pages</strong> —— 推到仓库，Settings 里开 Pages，免费；</li>
+        <li><strong>NAS / 软路由</strong> —— 把 <code>blog/</code> 目录丢进 Web 根目录（飞牛 fnOS、iStoreOS 都自带）；</li>
+        <li>临时预览：<code>python3 -m http.server 8000</code>。</li>
+      </ul>
+
+      <blockquote>注意：文章页里引用站点公共资源（favicon 等）用的是 <code>../../icon/</code> 相对路径，整个 <code>blog/</code> 目录挪到哪都不用改代码，但 <code>icon/</code> 目录必须和 <code>blog/</code> 保持同级。以后要独立成站，把 <code>icon/</code> 复制进 <code>blog/</code> 再改一下前缀即可。</blockquote>
+    </div>
+  </article>
+
+  <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
+</div>
+
+<script src="../stars.js"></script>
+</body>
+</html>
