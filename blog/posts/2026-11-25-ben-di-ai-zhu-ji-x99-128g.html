@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="X99 + DDR3 攒 128G 内存的本地 AI 主机：7900 XTX 跑 Strata + Qwen3.8-Flash-Next 的选型账本。">
+<meta name="theme-color" content="#eef2fa">
+<link rel="icon" type="image/svg+xml" href="../icon/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../icon/favicon.png">
+<link rel="apple-touch-icon" href="../icon/apple-touch-icon.png">
+<title>本地 AI 主机配置：X99 + E5 + DDR3 128G，配 7900 XTX 跑 Qwen3.8-Flash-Next · 梦飞 Blog</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="wrap art-wrap">
+  <header class="panel art-head" data-cat="运维">
+    <a class="backlink" href="../index.html">← 返回 Blog</a>
+    <h1>本地 AI 主机配置：X99 + E5 + DDR3 128G，配 7900 XTX 跑 Qwen3.8-Flash-Next</h1>
+    <div class="post-meta"><span class="tagpill">运维</span><time>2026-11-25</time></div>
+  </header>
+
+  <article class="panel prose-panel">
+    <div class="prose">
+      <p>起点是 <a href="https://github.com/Niko1221/Strata">Strata</a>：它让 Qwen3.8-Flash-Next 这类大 MoE 模型能跑在消费级硬件上——专家权重全部常驻内存，显卡只负责注意力和稠密部分。</p>
+      <p>专家权重加余量，<strong>128 GB 正好是 Strata 官方划定的线</strong>。所以整机要解决的首要问题不是"配一台电脑"，而是"怎么便宜地给机器装上 128 GB 内存"——平台、CPU、显卡，全都围绕这一条来定。</p>
+
+      <h2>平台：X99 + DDR3，低成本下大内存唯一选择</h2>
+      <p>新平台 128 GB DDR4、DDR5 的报价实在劝退，二手服务器市场则是另一个世界：<strong>E5-2686 v4</strong> 十六核，配<strong>华南 X99-AD3</strong>，四条 DDR3 ECC 32G 插满 128 GB，花费只要新平台的零头。四槽 DDR3 的带宽，对付 MoE 每 token 只激活几个专家的稀疏读取，够用。代价是这套平台没有升级余地。</p>
+
+      <h2>显卡：7900 XTX，否掉 5060 Ti 16G</h2>
+      <p>便宜够用的显卡，二选一想得比较久：</p>
+      <ul>
+        <li><strong>5060 Ti 16G</strong>：CUDA 生态省心，功耗 180W，还便宜两千。但显存 16G 封顶，这台机器能跑的天花板被它锁死。</li>
+        <li><strong>7900 XTX 24G</strong>：带宽 960 GB/s 直接翻倍不止；更关键是 Strata 的 HIP 后端里 <strong>RX 7900 XTX 是维护者亲测</strong>那一档，Linux 下连 ROCm 都不用装，内核自带 amdgpu 就跑。显存多 8G，稠密权重、KV Cache 就多留 8G 在卡上，少来回搬 8G。</li>
+      </ul>
+
+      <h2>按 GitHub Strata 上 install.sh 安装，安装完直接运行</h2>
+      <pre><code>strata launch    # 装完直接起服务</code></pre>
+      <p>量化选了 Unsloth 的 <strong>UD-Q4_K_XL</strong>：与 Q8_0 参考的 top-token 一致率 <strong>93.1%</strong>，比更小的 IQ4_XS 明显更稳，内存刚好落在 128 GB 的舒适区。开机自启、全天在线，写代码、跑 agent、随便折腾——token 不再按个算钱，才是这台主机的全部意义。</p>
+
+      <h2>清单</h2>
+      <ul>
+        <li>Intel Xeon E5-2686 v4（十六核）</li>
+        <li>华南 X99-AD3 主板（四槽 DDR3，插满）</li>
+        <li>DDR3 ECC 32G × 4 = 128 GB</li>
+        <li>Radeon RX 7900 XTX 24G（备选：RTX 5060 Ti 16G）</li>
+        <li>NVMe 1T（模型权重 111 GB，SSD 是备胎但要好）· 850W 电源 · 塔式散热</li>
+      </ul>
+    </div>
+  </article>
+
+  <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
+</div>
+
+<script src="../js/stars.js"></script>
+</body>
+</html>
