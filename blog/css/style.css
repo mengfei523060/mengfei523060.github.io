@@ -73,6 +73,20 @@ body {
 }
 .panel-title { font-size:14px; letter-spacing:1px; color:var(--muted); padding:4px 8px 12px; }
 
+/* ---------- 首页标题行 + 搜索框 ---------- */
+.panel-head { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:4px 8px 12px; }
+.panel-head .panel-title { padding:0; }
+.search input {
+  font:inherit; font-size:13px; color:var(--fg);
+  background:var(--input); border:1px solid var(--card-br);
+  border-radius:999px; padding:6px 14px; width:220px; max-width:100%;
+  outline:none; transition:border-color .2s, box-shadow .2s;
+}
+.search input::placeholder { color:var(--muted); opacity:.8; }
+.search input:focus { border-color:rgba(56,120,255,.45); box-shadow:0 0 0 3px rgba(56,120,255,.14); }
+.card[hidden] { display:none; }
+.empty { text-align:center; color:var(--muted); font-size:13px; padding:18px 8px 6px; }
+
 /* ---------- 文章卡片（一行一条，条内两行：首行 标签+标题+日期，次行 摘要） ---------- */
 .grid { display:grid; grid-template-columns:1fr; gap:12px; }
 .card {
@@ -158,6 +172,8 @@ footer {
   .prose-panel { padding:20px 18px 22px; }
   footer { margin-top:12px; padding:13px 14px; }
   .backlink { left:14px; top:10px; }
+  .search { flex:1 1 100%; }
+  .search input { width:100%; }
 }
 
 /* ---------- 尊重系统「减弱动态效果」偏好 ---------- */

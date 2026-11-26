@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="简单介绍阿里开源的 Open Code Review（ocr）：内部验证两年的 AI 代码评审 CLI，确定性流水线 + Agent 混合架构，行级评论，只花通用 Agent 约 1/9 的 token。">
+<meta name="theme-color" content="#eef2fa">
+<link rel="icon" type="image/svg+xml" href="../icon/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../icon/favicon.png">
+<link rel="apple-touch-icon" href="../icon/apple-touch-icon.png">
+<title>Open Code Review：阿里开源的 AI 代码评审命令行 · 梦飞 Blog</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="wrap art-wrap">
+  <!-- 简介区（与 Blog 主页一致） -->
+  <header class="hero">
+    <div class="bh">
+      <img src="../icon/avatar-linux-tux-256.webp" width="256" height="256" fetchpriority="high" alt="Linux Tux 企鹅头像">
+    </div>
+    <h1>梦飞</h1>
+    <div class="badges">
+      <span>日常</span>
+      <span>学习</span>
+      <span>运维</span>
+      <span>资讯</span>
+      <span>编程</span>
+    </div>
+  </header>
+
+  <header class="panel art-head" data-cat="编程">
+    <a class="backlink" href="../index.html">← 返回 Blog</a>
+    <h1>Open Code Review：阿里开源的 AI 代码评审命令行</h1>
+    <div class="post-meta"><span class="tagpill">编程</span><time>2026-11-26</time></div>
+  </header>
+
+  <article class="panel prose-panel">
+    <div class="prose">
+      <p>用通用 Agent 做代码评审的，多半踩过这几个坑：改动一大就「偷懒」只审几个文件、报的问题行号对不上、每次跑出来质量还忽高忽低。<a href="https://github.com/alibaba/open-code-review">Open Code Review</a>（命令叫 <code>ocr</code>）就是冲着这些坑来的——它是阿里集团内部官方 AI 评审助手，两年服务了几万开发者、报了数百万处缺陷，今年 5 月开源成 Go 单二进制 CLI，Apache-2.0，半年<strong>GitHub 56k+ star</strong>。读 Git diff，经带工具的 Agent 送给可配置的 LLM（OpenAI / Anthropic 兼容），产出<strong>行级定位</strong>的结构化评论，内置 NPE、线程安全、XSS、SQL 注入等多语言规则集。</p>
+
+      <h2>核心思路：确定性工程 × Agent 混合</h2>
+      <p>纯语言驱动的 Skills 缺乏硬约束，所以它把「不能出错的步骤」交给工程、把「要临场判断的」留给模型：</p>
+      <ul>
+        <li><strong>确定性一侧</strong>：算法决定哪些文件必须审（不漏审）、把相关文件打成一个审查单元（比如中英文案文件绑一起）、每组一个上下文隔离的 sub-agent 并发跑——大 changeset 也稳；规则用模板引擎匹配到文件特征，不靠模型自觉；另有独立的评论定位与反思模块兜底准确率；</li>
+        <li><strong>Agent 一侧</strong>：只保留评审场景调优过的提示词和工具集（从生产环境的海量调用轨迹里蒸馏出来），动态读全文、搜代码库、翻其他改动文件补上下文。</li>
+      </ul>
+
+      <h2>成绩单：拿 1/9 的 token 换更高精度</h2>
+      <p>官方 benchmark（<a href="https://huggingface.co/datasets/Alibaba-Aone/aacr-bench">AACR-Bench</a>）拿 50 个热门开源仓库、200 个真实 PR、10 种语言，80 多位资深工程师标了 1505 条问题。同一个底层模型对比 Claude Code：<strong>Precision 和 F1 显著更高，token 只花约 1/9，速度还更快</strong>。代价是 Recall 略低——官方明说了这是拿召回换精准的取舍：宁可少报，不给你一堆误报去排查。</p>
+
+      <h2>上手</h2>
+      <pre><code>npm install -g @alibaba-group/open-code-review   # 目前 v1.14.4，产出全局 ocr 命令
+cd your-project
+ocr config provider &amp;&amp; ocr config model          # 配个模型端点，交互界面带连通性测试
+ocr review                                        # 审工作区全部改动
+ocr review --from main --to feature-branch        # 审分支区间，也支持 --commit abc123
+ocr scan --path internal/agent                    # 没有 diff 就整文件扫，适合陌生代码库审计</code></pre>
+      <p>要求就一条 Git ≥ 2.41，Win / macOS / Linux 都行。没有单独 API Key 的话还有<strong>委托模式</strong>：<code>ocr delegate</code> 只负责文件挑选和规则解析，评审由你的宿主 Agent（Claude Code、Codex、Cursor 等，<code>npx skills add alibaba/open-code-review</code> 装上技能）用自己的模型完成——这正好接得上我<a href="2026-11-25-codex-cli-pei-zhi-ben-di-mo-xing.html">本机模型跑 Codex CLI</a>那套，评审全程不出内网。</p>
+
+      <blockquote>定位很清楚：不是又一个通用 Agent，而是把评审这件重复活做成「流水线管流程、模型管判断」的专用工具。CI 里跑 GitHub Actions、GitLab、Gerrit 都有现成集成，结果还能 <code>--format json</code> 喂给别的 Agent 接着处理。</blockquote>
+    </div>
+  </article>
+
+  <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
+</div>
+
+<script src="../js/stars.js"></script>
+</body>
+</html>

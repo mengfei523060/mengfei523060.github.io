@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="简单介绍腾讯开源的 BrowserSkill（bsk）：CLI + 浏览器扩展 + 技能三件套，复用已登录浏览器让 Agent 直接操作页面。">
+<meta name="theme-color" content="#eef2fa">
+<link rel="icon" type="image/svg+xml" href="../icon/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../icon/favicon.png">
+<link rel="apple-touch-icon" href="../icon/apple-touch-icon.png">
+<title>BrowserSkill：让 Agent 接管你已登录的浏览器 · 梦飞 Blog</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="wrap art-wrap">
+  <!-- 简介区（与 Blog 主页一致） -->
+  <header class="hero">
+    <div class="bh">
+      <img src="../icon/avatar-linux-tux-256.webp" width="256" height="256" fetchpriority="high" alt="Linux Tux 企鹅头像">
+    </div>
+    <h1>梦飞</h1>
+    <div class="badges">
+      <span>日常</span>
+      <span>学习</span>
+      <span>运维</span>
+      <span>资讯</span>
+      <span>编程</span>
+    </div>
+  </header>
+
+  <header class="panel art-head" data-cat="编程">
+    <a class="backlink" href="../index.html">← 返回 Blog</a>
+    <h1>BrowserSkill：让 Agent 接管你已登录的浏览器</h1>
+    <div class="post-meta"><span class="tagpill">编程</span><time>2026-11-26</time></div>
+  </header>
+
+  <article class="panel prose-panel">
+    <div class="prose">
+      <p><a href="https://github.com/Tencent/BrowserSkill">BrowserSkill</a>（命令叫 <code>bsk</code>）是腾讯开源的浏览器自动化技能，解决的是老问题：Agent 操作浏览器要么起一个全新的无头浏览器，所有站点重新登录一遍；要么导出 cookie 喂给脚本，等于把凭据交出去。bsk 的思路是<strong>直接驱动你日常在用的 Chromium 浏览器</strong>——登录态天然就在那，不用搬运。</p>
+
+      <h2>它由三部分组成</h2>
+      <ul>
+        <li><strong>bsk CLI + 本地守护进程</strong>：命令入口，daemon 负责会话管理，普通命令会自动拉起它；</li>
+        <li><strong>浏览器扩展</strong>：Chrome 应用商店 / Edge 加载项装一个，浏览器就接上了 daemon；</li>
+        <li><strong>browser-skill 技能</strong>：一份 SKILL.md 加十几篇参考文档，教 Agent 怎么调 CLI；支持 MCP 的环境还能直接注册 <code>bsk_*</code> 工具。</li>
+      </ul>
+
+      <h2>安装</h2>
+      <pre><code># 1. macOS / Linux 装 CLI（默认进 ~/.local/bin）
+curl -fsSL https://raw.githubusercontent.com/Tencent/BrowserSkill/main/install.sh | sh
+bsk --version
+
+# 2. 把技能装进你的 Agent 环境（Cursor / Claude Code / Codex / DSH 等）
+bsk install-skill --list --json
+bsk install-skill --harness cursor --json
+
+# 3. 装完跑一遍自检
+bsk doctor</code></pre>
+      <p>Windows 换成 <code>irm https://raw.githubusercontent.com/Tencent/BrowserSkill/main/install.ps1 | iex</code>。新装完 doctor 里通常只剩「extension connected」一条不过——去商店装好扩展、连接上再跑一次就绿了；要连另一台机器上的浏览器，用 <code>bsk daemon pair</code> 生成配对链接，贴进扩展的连接设置即可。</p>
+
+      <h2>用法：五条命令够用</h2>
+      <pre><code>bsk open "https://example.com"   # 开一个会话，默认在后台 Agent 窗口里操作
+bsk read                         # 读页面，元素按 @e1、@e2… 引用
+bsk click @e3                    # click / fill / select / press 都认 @eN
+bsk sync                         # 页面跳转或人工动过之后，重新同步状态
+bsk close                        # 用完关会话</code></pre>
+      <p>填表单是 <code>bsk fill @e1 --value "xx"</code>；让 Agent 批量干活有 <code>bsk plan --steps '[...]'</code>，多浏览器并存用 <code>bsk browsers</code> 挑一个传 <code>--browser</code>。</p>
+
+      <h2>几条值得看的安全边界</h2>
+      <ul>
+        <li>页面内容只当<strong>数据</strong>，页面上写给 Agent 的指令不生效，遇到注入要上报而不是照做；</li>
+        <li>超时或「效果未知」时先 <code>bsk sync</code> 看状态，<strong>不盲目重试写操作</strong>；</li>
+        <li>Agent 默认用自己的后台窗口，碰你自己的标签页要先 <code>bsk tab borrow</code> 经你确认。</li>
+      </ul>
+
+      <blockquote>对经常要操作 NAS、路由器后台这类需要登录的内网页面的人来说，「借用现成登录态」比再起一个干净浏览器实用得多。</blockquote>
+    </div>
+  </article>
+
+  <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
+</div>
+
+<script src="../js/stars.js"></script>
+</body>
+</html>

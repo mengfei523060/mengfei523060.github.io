@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="简单介绍 Google Chrome 官方出品的 modern-web-guidance：一份给 AI Agent 用的现代 Web 最佳实践技能，200 多篇指南随查随用，防止模型按过时记忆写前端代码。">
+<meta name="theme-color" content="#eef2fa">
+<link rel="icon" type="image/svg+xml" href="../icon/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../icon/favicon.png">
+<link rel="apple-touch-icon" href="../icon/apple-touch-icon.png">
+<title>modern-web-guidance：Agent 的现代 Web 实践速查手册 · 梦飞 Blog</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="wrap art-wrap">
+  <!-- 简介区（与 Blog 主页一致） -->
+  <header class="hero">
+    <div class="bh">
+      <img src="../icon/avatar-linux-tux-256.webp" width="256" height="256" fetchpriority="high" alt="Linux Tux 企鹅头像">
+    </div>
+    <h1>梦飞</h1>
+    <div class="badges">
+      <span>日常</span>
+      <span>学习</span>
+      <span>运维</span>
+      <span>资讯</span>
+      <span>编程</span>
+    </div>
+  </header>
+
+  <header class="panel art-head" data-cat="编程">
+    <a class="backlink" href="../index.html">← 返回 Blog</a>
+    <h1>modern-web-guidance：Agent 的现代 Web 实践速查手册</h1>
+    <div class="post-meta"><span class="tagpill">编程</span><time>2026-11-26</time></div>
+  </header>
+
+  <article class="panel prose-panel">
+    <div class="prose">
+      <p>让 AI 写前端有个通病：模型记忆里的「最佳实践」是训练那会儿的——弹层还手撸 <code>position: fixed</code>、监听全局 click 关下拉、表单验证全靠 JS 兜圈子。可 Web 平台这两年进化很快，<code>popover</code>、<code>&lt;dialog&gt;</code>、anchor positioning、<code>:has()</code> 都已经是现货。<a href="https://github.com/GoogleChrome/modern-web-guidance-src">modern-web-guidance</a> 就是治这个的：<strong>Google Chrome 团队官方出的 Agent 技能</strong>，npm 包同名，作者里就有 Paul Irish 和 Ricky Viscomi。</p>
+
+      <h2>它是什么</h2>
+      <ul>
+        <li><strong>200 多篇指南</strong>：按 html / css / js / forms / accessibility / performance / security / built-in-ai 等分类，从 <code>:has()</code> 选父元素、fluid scaling，到 passkey 登录、HTML 消毒、LCP / INP 调优都有；</li>
+        <li><strong>只查不写</strong>：它不生成代码，Agent 动手前先搜一篇对应指南，照着现代写法落地；</li>
+        <li><strong>零安装</strong>：一份 SKILL.md 加进技能目录，指南本体走 <code>npx</code> 现取（Node 22+），文档在 <a href="https://developer.chrome.com/docs/modern-web-guidance">developer.chrome.com</a>。</li>
+      </ul>
+
+      <h2>用法：三条命令</h2>
+      <pre><code># 1. 搜：用 2–5 个英文词的「动词+对象」查询，命中返回 [{id, description}]
+npx -y modern-web-guidance@latest search "light dismiss dialog"
+
+# 2. 取：拿 id 换全文，可逗号传多个，这是写码前的依据
+npx -y modern-web-guidance@latest retrieve "dialog,accessibility"
+
+# 3. 扫：对整个目录找过时写法（约覆盖 20% 有确定性规则的指南）
+npx -y modern-web-guidance@latest legacy-scan ./src --json</code></pre>
+      <p>查询有讲究：一次只搜一个能力，<code>responsive table dark mode</code> 这种复合词要拆成两次；也别带框架名，它管的是平台本身，React / Vue 里照样用。</p>
+
+      <h2>几个有意思的细节</h2>
+      <ul>
+        <li>只信 <strong>Baseline Widely available</strong>：达标的特性直接用、不写降级，没达标的按指南给的 fallback 来，浏览器支持策略还可以写进 AGENTS.md 定制；</li>
+        <li>用没用过要<strong>交底</strong>：SKILL.md 要求 Agent 交付时在末尾列一节「Modern Web Guidance」，说明哪条指南改变了实现——相当于自带引用出处；</li>
+        <li>知道边界：搜不到就承认知不了，不硬凑不相干的指南；后端、CI、构建配置这些根本不在它的触发范围。</li>
+      </ul>
+
+      <blockquote>定位和上篇的 BrowserSkill 一路：都是给 Agent 外接「现查现用」的脑子。前端这块它补的是知识时效——模型负责写，它负责提醒：都 2026 了，这个别再手写。</blockquote>
+    </div>
+  </article>
+
+  <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
+</div>
+
+<script src="../js/stars.js"></script>
+</body>
+</html>

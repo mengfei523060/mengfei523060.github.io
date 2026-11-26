@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="简单介绍小米开源的 Xiaomi-OCR-0：0.8B 参数的 OCR 专用多模态模型，文档解析、图片问答、关键信息提取一锅端，benchmark 越级，本机就能跑。">
+<meta name="theme-color" content="#eef2fa">
+<link rel="icon" type="image/svg+xml" href="../icon/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../icon/favicon.png">
+<link rel="apple-touch-icon" href="../icon/apple-touch-icon.png">
+<title>Xiaomi-OCR-0：0.8B 越级打分的文档 OCR 小模型 · 梦飞 Blog</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="wrap art-wrap">
+  <!-- 简介区（与 Blog 主页一致） -->
+  <header class="hero">
+    <div class="bh">
+      <img src="../icon/avatar-linux-tux-256.webp" width="256" height="256" fetchpriority="high" alt="Linux Tux 企鹅头像">
+    </div>
+    <h1>梦飞</h1>
+    <div class="badges">
+      <span>日常</span>
+      <span>学习</span>
+      <span>运维</span>
+      <span>资讯</span>
+      <span>编程</span>
+    </div>
+  </header>
+
+  <header class="panel art-head" data-cat="编程">
+    <a class="backlink" href="../index.html">← 返回 Blog</a>
+    <h1>Xiaomi-OCR-0：0.8B 越级打分的文档 OCR 小模型</h1>
+    <div class="post-meta"><span class="tagpill">编程</span><time>2026-11-26</time></div>
+  </header>
+
+  <article class="panel prose-panel">
+    <div class="prose">
+      <p>OCR 这事早就不必装 Tesseract 再调半天参数了。小米研究院（SeerRay-Lab）九月底开源的 <a href="https://huggingface.co/xiaomi-research/Xiaomi-OCR-0">Xiaomi-OCR-0</a> 是个 <strong>0.8B 的 OCR 专用多模态模型</strong>，Apache-2.0 协议：一个模型同时吃<strong>文档解析</strong>（整页转 Markdown，表格、公式照原样还原）、<strong>图片问答</strong>（对着一页纸问数、问表、问图）、<strong>关键信息提取</strong>（给个 JSON schema，收据发票直接出结构化数据）三类活。</p>
+
+      <h2>成绩有多越级</h2>
+      <ul>
+        <li>文档解析三大榜：Real5-OmniDocBench <strong>95.24（第一）</strong>，OmniDocBench v1.6 96.83、Wild 87.94（均第二）——压过的对手普遍在 0.9B~1.2B；</li>
+        <li>OCR 图片问答五项平均 <strong>83.2</strong>，用 0.8B 打赢 Qwen3.5-2B 的 80.9，接近 4B 水平；</li>
+        <li>公式识别 97.84、表格 92.27；手写推导、行草《千字文》都能顺下来，古籍书法项和 Seed 2.0 Pro 打平；</li>
+        <li>扫描件、拍照、歪斜页这些「再拍一遍」的脏活也稳，不是只吃干净截图的榜架模型。</li>
+      </ul>
+
+      <h2>为什么 0.8B 敢打 2B</h2>
+      <p>秘诀不在参数在数据：从 Qwen3.5-0.8B-Base 出发，用约 <strong>1.7 亿条</strong> OCR 语料做三阶段训练——文字锚定对齐、OCR 持续预训练、再加可验证奖励的混合任务强化学习（<a href="https://arxiv.org/abs/2609.36136">技术报告</a>）。标注靠 PaddleOCR-VL、MinerU、GLM-OCR 等一票专家模型投票互验，错处渲染回图里再抓。专业的事喂专业的数据，小模型就够了。</p>
+
+      <h2>本机怎么跑</h2>
+      <p>生态铺开很快：官方有 transformers 用法，社区有 GGUF 量化（llama.cpp / <strong>Ollama BF16 约 1.8 GB</strong>）、Mac 的 MLX 版、甚至端侧 LiteRT 和 ONNX int4。我机器上走的是 Ollama + 官方 MCP 服务这条路：</p>
+      <pre><code>ollama pull longwayxu/xiaomi-ocr-0:bf16   # 模型按需加载，平时不占内存</code></pre>
+      <p>配好后 Agent 侧直接多出一组工具：<code>ocr_image</code>（整页 / region 双模式，region 先版式检测切块再并发 OCR）、<code>ocr_pdf</code>（PDF 逐页转 Markdown）、<code>kie_image</code>（按 schema 出 JSON）、<code>vqa_image</code>（对图提问）。文档丢给 Agent 就出 Markdown，全程不出本机。</p>
+
+      <blockquote>和 <a href="2026-11-26-strata-jian-jie.html">Strata</a> 正好分工：大模型负责聊和写，0.8B 的专职小模型负责看文档——各干各的活，全都本地化，一分钱 API 费不花。</blockquote>
+    </div>
+  </article>
+
+  <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
+</div>
+
+<script src="../js/stars.js"></script>
+</body>
+</html>

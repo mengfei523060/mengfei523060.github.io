@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="简单介绍开源推理引擎 Strata：把大 MoE 模型的专家权重铺进内存、显卡、SSD 三级分工，让家用机跑起 Qwen3.8-Flash-Next 这类服务器级模型。">
+<meta name="theme-color" content="#eef2fa">
+<link rel="icon" type="image/svg+xml" href="../icon/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../icon/favicon.png">
+<link rel="apple-touch-icon" href="../icon/apple-touch-icon.png">
+<title>Strata：把大 MoE 模型塞进家用电脑 · 梦飞 Blog</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="wrap art-wrap">
+  <!-- 简介区（与 Blog 主页一致） -->
+  <header class="hero">
+    <div class="bh">
+      <img src="../icon/avatar-linux-tux-256.webp" width="256" height="256" fetchpriority="high" alt="Linux Tux 企鹅头像">
+    </div>
+    <h1>梦飞</h1>
+    <div class="badges">
+      <span>日常</span>
+      <span>学习</span>
+      <span>运维</span>
+      <span>资讯</span>
+      <span>编程</span>
+    </div>
+  </header>
+
+  <header class="panel art-head" data-cat="编程">
+    <a class="backlink" href="../index.html">← 返回 Blog</a>
+    <h1>Strata：把大 MoE 模型塞进家用电脑</h1>
+    <div class="post-meta"><span class="tagpill">编程</span><time>2026-11-26</time></div>
+  </header>
+
+  <article class="panel prose-panel">
+    <div class="prose">
+      <p><a href="https://github.com/Niko1221/Strata">Strata</a> 是个 MIT 协议的开源推理引擎，口号很直白：Run powerful AI on your own computer。它针对的是 Qwen3.8-Flash-Next 这类 MoE 大模型——本要在几百 GB 显存的服务器集群上跑，Strata 让它在「大内存 + 一张 12~24G 消费级显卡」的家用机上转起来。我之前那篇<a href="2026-11-25-ben-di-ai-zhu-ji-x99-128g.html">《本地 AI 主机配置》</a>就是照着它攒的机。</p>
+
+      <h2>核心思路：全机分工</h2>
+      <p>MoE 模型的参数大头是一堆「专家」：Qwen3.8-Flash-Next 有 <strong>24,576 个专家，写每个词平均只用到 10 个</strong>——根本不需要全塞显存。Strata 的官方比喻是厨房：常用的放灶台，其余的在储物间。落到硬件上：</p>
+      <ul>
+        <li><strong>显卡（显存）</strong>：每个词都要过的部分——注意力、路由、共享专家、输出头、KV Cache——外加一个<strong>热专家缓存</strong>，按对话内容自动学习该留谁，显存每多 1G 约多放 700 个专家；</li>
+        <li><strong>内存</strong>：全部专家常驻（pinned），显卡没有的专家由 <strong>CPU 就地计算</strong>，和显卡并行、互不等待；</li>
+        <li><strong>SSD</strong>：放 28.8 GB 的查找表，每个词只读几行。</li>
+      </ul>
+      <p>同一套引擎分别按 NVIDIA CUDA 和 AMD HIP 编译，A 卡 N 卡都支持。</p>
+
+      <h2>速度从哪来</h2>
+      <ul>
+        <li><strong>先猜后验</strong>：模型自带的 MTP 小助手先猜几个词，大模型一次全体验收——答案仍是大模型定的，质量不变，出字快 <strong>1.6~1.8 倍</strong>；</li>
+        <li><strong>长文快读</strong>：文档一次读 8192 token，吃长文 / 代码库超 1000 token/s；多轮对话只增量读新内容，追问秒回；</li>
+        <li>一个反直觉结论：<strong>显存容量比显卡算力更重要</strong>——显存里的专家每多一个，CPU 就少算一个。</li>
+      </ul>
+
+      <h2>安装与接入</h2>
+      <pre><code># Linux / macOS 一行装
+curl -fsSL https://github.com/Niko1221/Strata/releases/latest/download/install.sh -o install.sh &amp;&amp; sh install.sh
+
+strata launch    # 按提示选模型、下载、启动，自带 web 聊天窗口
+strata connect   # 列出 Codex CLI / Claude Code 等工具的接入方法</code></pre>
+      <p>Windows 有对应的 <code>install.ps1</code>，不想碰终端也有桌面 App（Win / Linux / Mac）。引擎对外提供 OpenAI / Anthropic 兼容 API，所以任何能自定义 API 的客户端都能接——我那个<a href="2026-11-25-codex-cli-pei-zhi-ben-di-mo-xing.html">《Codex CLI 接入本地大模型》</a>接的就是它。</p>
+
+      <h2>硬件与模型怎么配</h2>
+      <p>官方支持：NVIDIA RTX 20~50 系、AMD RX 7700~7900 / 9060 / 9070、Intel Arc（Linux）、Apple Silicon M1 起、Ryzen AI Max 等。模型按内存档位打包（如 Hy4-Flash 的 SQ-64/96/128 直接以内存大小命名），<strong>128 GB 内存是大 MoE 的甜点档</strong>；Qwen3.8-Flash-Next 推荐 ISTA-DASLab 压缩包，追求质量选 Unsloth 的 UD-Q4_K_XL。</p>
+
+      <blockquote>至此本站的本地 AI 三件套齐了：Strata 负责跑模型，<a href="2026-11-25-ben-di-ai-zhu-ji-x99-128g.html">装机帖</a>负责硬件账本，<a href="2026-11-25-codex-cli-pei-zhi-ben-di-mo-xing.html">Codex 配置帖</a>负责把模型接进日常工具——token 不再按个算钱。</blockquote>
+    </div>
+  </article>
+
+  <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
+</div>
+
+<script src="../js/stars.js"></script>
+</body>
+</html>

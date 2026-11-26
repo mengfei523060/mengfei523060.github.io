@@ -33,8 +33,43 @@
   <!-- 文章列表 -->
   <main>
   <section class="panel">
-    <div class="panel-title">最新文章</div>
+    <div class="panel-head">
+      <div class="panel-title">最新文章</div>
+      <div class="search">
+        <input id="search" type="search" placeholder="搜索标题关键字…" aria-label="搜索文章标题" autocomplete="off">
+      </div>
+    </div>
     <div class="grid">
+      <a class="card" data-cat="编程" href="posts/2026-11-26-open-code-review-jian-jie.html">
+        <span class="tag"><i></i>编程</span>
+        <h3>Open Code Review：阿里开源的 AI 代码评审命令行</h3>
+        <p>内部验证两年的评审助手开源了：确定性流水线 + Agent 混合，行级评论，只花通用 Agent 约 1/9 的 token。</p>
+        <time>2026-11-26</time>
+      </a>
+      <a class="card" data-cat="编程" href="posts/2026-11-26-xiaomi-ocr-jian-jie.html">
+        <span class="tag"><i></i>编程</span>
+        <h3>Xiaomi-OCR-0：0.8B 越级打分的文档 OCR 小模型</h3>
+        <p>小米开源的 OCR 专用多模态模型：解析、图问答、信息提取一锅端，0.8B 打赢 2B，本机就能跑。</p>
+        <time>2026-11-26</time>
+      </a>
+      <a class="card" data-cat="编程" href="posts/2026-11-26-strata-jian-jie.html">
+        <span class="tag"><i></i>编程</span>
+        <h3>Strata：把大 MoE 模型塞进家用电脑</h3>
+        <p>开源推理引擎：专家权重在显卡、内存、SSD 三级分工，大内存 + 消费级显卡就能跑服务器级模型。</p>
+        <time>2026-11-26</time>
+      </a>
+      <a class="card" data-cat="编程" href="posts/2026-11-26-modern-web-guidance-jian-jie.html">
+        <span class="tag"><i></i>编程</span>
+        <h3>modern-web-guidance：Agent 的现代 Web 实践速查手册</h3>
+        <p>Chrome 团队官方的 Web 最佳实践技能：200 多篇指南随查随用，别让 Agent 按旧记忆写前端。</p>
+        <time>2026-11-26</time>
+      </a>
+      <a class="card" data-cat="编程" href="posts/2026-11-26-browserskill-jian-jie.html">
+        <span class="tag"><i></i>编程</span>
+        <h3>BrowserSkill：让 Agent 接管你已登录的浏览器</h3>
+        <p>腾讯开源的浏览器自动化技能：CLI + 浏览器扩展 + 技能三件套，复用登录态，Agent 直接上手干活。</p>
+        <time>2026-11-26</time>
+      </a>
       <a class="card" data-cat="运维" href="posts/2026-11-25-ben-di-ai-zhu-ji-x99-128g.html">
         <span class="tag"><i></i>运维</span>
         <h3>本地 AI 主机配置：X99 + E5 + DDR3 128G，配 7900 XTX 跑 Qwen3.8-Flash-Next</h3>
@@ -60,12 +95,14 @@
         <time>2026-11-25</time>
       </a>
     </div>
+    <p id="empty" class="empty" hidden>没有匹配的文章，换个关键字试试。</p>
   </section>
   </main>
 
   <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
 </div>
 
+<script src="js/search.js"></script>
 <script src="js/stars.js"></script>
 </body>
 </html>
