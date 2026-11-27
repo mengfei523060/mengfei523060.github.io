@@ -56,6 +56,17 @@
       <pre><code>ollama pull longwayxu/xiaomi-ocr-0:bf16   # 模型按需加载，平时不占内存</code></pre>
       <p>配好后 Agent 侧直接多出一组工具：<code>ocr_image</code>（整页 / region 双模式，region 先版式检测切块再并发 OCR）、<code>ocr_pdf</code>（PDF 逐页转 Markdown）、<code>kie_image</code>（按 schema 出 JSON）、<code>vqa_image</code>（对图提问）。文档丢给 Agent 就出 Markdown，全程不出本机。</p>
 
+      <h2>Ollama 加载后，再跑一个本地浏览器 Demo</h2>
+      <p>Ollama 把 <code>xiaomi-ocr-0</code> 加载好之后，仓库自带的网页 Demo 也能完全本地跑。在<strong>仓库根目录</strong>，用 <strong>Python 3.10 或更高版本</strong>执行：</p>
+      <pre><code>python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+export XIAOMI_OCR_BACKEND=ollama
+export XIAOMI_OCR_MODEL=longwayxu/xiaomi-ocr-0:bf16
+export XIAOMI_OCR_LOCAL_URL=http://127.0.0.1:11434/v1
+python demo/server.py --port 8787</code></pre>
+      <p>跑起来后浏览器打开 <code>http://127.0.0.1:8787</code>：拖一张图或一份 PDF 进去，页面直接吐 Markdown / 结构化 JSON——不配 Agent 也能白嫖这套 OCR 全家桶，服务同样只监听本机。</p>
+
       <blockquote>和 <a href="2026-11-26-strata-jian-jie.html">Strata</a> 正好分工：大模型负责聊和写，0.8B 的专职小模型负责看文档——各干各的活，全都本地化，一分钱 API 费不花。</blockquote>
     </div>
   </article>
