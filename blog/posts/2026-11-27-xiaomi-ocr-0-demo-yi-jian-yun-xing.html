@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="把 Xiaomi-OCR-0 官方 demo 重做成一键启动的本地 App：./run.sh 一条命令跑起来，自动探测 llama.cpp / Ollama，内置 GGUF 模型零配置接入，全程不填任何 API。">
+<meta name="theme-color" content="#eef2fa">
+<link rel="icon" type="image/svg+xml" href="../icon/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../icon/favicon.png">
+<link rel="apple-touch-icon" href="../icon/apple-touch-icon.png">
+<title>把 Xiaomi-OCR-0 官方 Demo 改成一键启动的本地 App · 梦飞 Blog</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<div class="wrap art-wrap">
+  <!-- 简介区（与 Blog 主页一致） -->
+  <header class="hero">
+    <div class="bh">
+      <img src="../icon/avatar-linux-tux-256.webp" width="256" height="256" fetchpriority="high" alt="Linux Tux 企鹅头像">
+    </div>
+    <h1>梦飞</h1>
+    <div class="badges">
+      <span>日常</span>
+      <span>学习</span>
+      <span>运维</span>
+      <span>资讯</span>
+      <span>编程</span>
+    </div>
+  </header>
+
+  <header class="panel art-head" data-cat="编程">
+    <a class="backlink" href="../index.html">← 返回 Blog</a>
+    <h1>把 Xiaomi-OCR-0 官方 Demo 改成一键启动的本地 App</h1>
+    <div class="post-meta"><span class="tagpill">编程</span><time>2026-11-27</time></div>
+  </header>
+
+  <article class="panel prose-panel">
+    <div class="prose">
+      <p>前一篇介绍 <a href="2026-11-26-xiaomi-ocr-jian-jie.html">Xiaomi-OCR-0</a> 时，结尾跑的是官方自带网页 Demo——能跑，但启动前要折腾一长串：建 venv、装依赖、手动 <code>export</code> 三个环境变量、记住端口号。想「双击就用」的人不会喜欢这个流程，所以我动手把官方 <code>demo/</code> 重做成了一个自包含 App：<strong><a href="https://github.com/mengfei523060/xiaomi-ocr-0-demo-app">xiaomi-ocr-0-demo-app</a></strong>——打开即用，什么都不用填。</p>
+
+      <h2>从一串命令到 ./run.sh</h2>
+      <p>官方 demo 的启动流程（上一篇里原样贴过）：</p>
+      <pre><code>python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+export XIAOMI_OCR_BACKEND=ollama
+export XIAOMI_OCR_MODEL=longwayxu/xiaomi-ocr-0:bf16
+export XIAOMI_OCR_LOCAL_URL=http://127.0.0.1:11434/v1
+python demo/server.py --port 8787</code></pre>
+      <p>现在整个仓库克隆下来，只要一条命令：</p>
+      <pre><code>git clone https://github.com/mengfei523060/xiaomi-ocr-0-demo-app
+cd xiaomi-ocr-0-demo-app
+./run.sh        # 首次自动建 venv + 装依赖，然后直接起服务并打开浏览器</code></pre>
+      <p><code>run.sh</code> 首次运行自动创建 <code>.venv</code> 并装 <code>core/requirements.txt</code>——只有 <strong>Pillow、pypdfium2、numpy 三个包</strong>：推理全走本机运行时，服务端连 openai SDK 都不需要。默认 <code>http://127.0.0.1:8790</code> 并自动弹浏览器；端口如果被占，已有本 App 实例就提示打开现有地址，否则提示换端口。Windows 没有 bash 也能跑：<code>python app\server.py --port 8790 --open</code> 一条命令等价。</p>
+
+      <h2>模型零配置：App 自己找运行时</h2>
+      <p>官方 demo 要手动 export 后端、模型名、URL 三件事；App 里这些全没了，启动时自动按优先级探测：</p>
+      <ol>
+        <li>本机 <code>:8190</code> 已有 llama-server 在跑 → 直接接入，模型名问它自己；</li>
+        <li>Ollama 里有名字含 <code>xiaomi-ocr-0</code> 的模型 → 走 Ollama 原生通道；</li>
+        <li>装了 llama.cpp → App 用<strong>内置 GGUF</strong> 自动在 8190 拉起 llama-server（Ctrl+C 退出时只停自己拉起的，不误杀你手动开的）；</li>
+        <li>只有 Ollama 没模型 → 用内置 <code>Modelfile</code> 一键导入为 <code>xiaomi-ocr-0:app</code>，与已 pull 的官方模型 blob 去重，秒级完成。</li>
+      </ol>
+      <p>「内置 GGUF」指仓库 <code>model/</code> 目录打包了 <strong>Xiaomi-OCR-0 0.8B BF16</strong> 的 GGUF + 视觉 mmproj（约 1.7GB，<code>MANIFEST.json</code> 带 sha256 校验）。这两个大文件不入库，git clone 只有几 MB；用 Ollama 的用户则完全不需要它们。界面顶部状态行会实时显示接入情况：「使用内置模型 · 正在加载…」，绿点亮了直接拖图；缺什么也直接提示缺什么，绝不后台下载任何东西。</p>
+
+      <h2>功能一样不少，PDF 更好用</h2>
+      <ul>
+        <li><strong>文档解析</strong>：整页转 Markdown，OTSL 表格还原成 HTML、公式带 LaTeX 渲染——前端自带 KaTeX，离线可用；</li>
+        <li><strong>字段提取（KIE）</strong>：逗号分隔字段名，出 JSON 键值表；<strong>图像问答（VQA）</strong>照旧；</li>
+        <li><strong>PDF 整本解析</strong>：pypdfium2 逐页渲染、并发 OCR、SSE 实时进度 + 缩略图、可中途取消、空白页自动跳过，导出 <code>.md</code>；</li>
+        <li>结果三视图（预览 / 原文 / JSON）、一键复制下载（浏览器本地生成文件名，失败走服务器兜底）、内置 7 个样例（小票、论文公式、书法、手写公式、KIE、VQA）、<code>⌘/Ctrl + Enter</code> 快捷键；</li>
+        <li>「高级设置 ▾」里 max_tokens / temperature / 并发 / PDF DPI / 页数上限，改动即时保存。</li>
+      </ul>
+      <p>界面上固定整页识别、收起了所有 API 配置项——但服务端接口（<code>/api/run</code>、<code>/api/check</code>）仍接受自定义模型配置和 <code>mode:"region"</code>，程序化调用的进阶玩法没砍。</p>
+
+      <h2>两个版本：带模型的和不带的</h2>
+      <ul>
+        <li><strong>主 App</strong>：内置 1.7GB 模型，拷走 <code>app/</code> 整个文件夹到任何装了 llama.cpp 或 Ollama 的机器就能跑，默认端口 8790；</li>
+        <li><strong>mini/</strong>：同一套界面与功能、<strong>不带模型</strong>，整目录约 3MB，自动接入你本机已有的 <code>xiaomi-ocr-0</code>，默认端口 8791，跟主 App 互不打架。</li>
+      </ul>
+      <p>换电脑迁移实测过：全新目录、全新进程，模型探测、样例、OCR、导出全部正常；孤儿进程清理依赖 <code>lsof</code>，Windows 缺失时自动跳过。</p>
+
+      <blockquote>至此这台机器上的文档 OCR 链路彻底闭环：模型是本地的、运行时是本地的、界面是一键的——PDF 丢进去出 Markdown，全程不出本机，一分钱 API 费不花。模型本身为什么 0.8B 能越级，看上一篇 <a href="2026-11-26-xiaomi-ocr-jian-jie.html">Xiaomi-OCR-0 简介</a>。</blockquote>
+    </div>
+  </article>
+
+  <footer><span>© 2026</span><span>梦飞 Blog</span><span>∞</span></footer>
+</div>
+
+<script src="../js/stars.js"></script>
+</body>
+</html>
