@@ -10,18 +10,10 @@
   --drawer-w: min(340px, 86vw);
 }
 
-/* ── 主题 ── */
+/* ── 主题（旧书 / 夜读已删除，仅保留「宣纸」） ── */
 html[data-theme="light"] {
   --bg: #f7f6f2;  --bg2: #ffffff;  --text: #26282c;  --muted: #8b8f97;
   --line: #e5e3dc; --accent: #b0563a; --accent-soft: rgba(176, 86, 58, .12);
-}
-html[data-theme="sepia"] {
-  --bg: #f1e9d6;  --bg2: #f9f3e2;  --text: #4a3f2d;  --muted: #9b8b6d;
-  --line: #e0d5b8; --accent: #9c5c34; --accent-soft: rgba(156, 92, 52, .12);
-}
-html[data-theme="dark"] {
-  --bg: #161719;  --bg2: #1f2124;  --text: #c9cdd3;  --muted: #6e747d;
-  --line: #2d3034; --accent: #cf8057; --accent-soft: rgba(207, 128, 87, .14);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,11 +45,19 @@ svg { display: block; }
   position: sticky; top: 0; z-index: 5;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   padding: 20px clamp(16px, 5vw, 56px) 14px;
+  min-height: 70px;            /* 与阅读页 r-head 等高，底部分隔线位置一致 */
   background: var(--bg);
   border-bottom: 1px solid var(--line);
 }
 .brand {
+  flex: 0 0 auto;
+  display: flex; align-items: center; gap: 10px;
   font-family: var(--serif); font-size: 24px; font-weight: 700; letter-spacing: 2px;
+}
+.brand b { white-space: nowrap; }
+.brand img {
+  border-radius: 7px; display: block; flex: 0 0 auto;
+  box-shadow: 0 0 0 1px var(--line), 0 0 8px 1px rgba(255, 190, 120, .3);
 }
 .brand span { color: var(--accent); }
 .lib-tools { display: flex; align-items: center; gap: 10px; }
@@ -157,7 +157,8 @@ svg { display: block; }
 .r-head {
   flex: 0 0 auto; z-index: 6;
   display: flex; align-items: center; gap: 10px;
-  padding: 10px clamp(12px, 3vw, 28px);
+  padding: 20px clamp(16px, 5vw, 56px) 14px;   /* 与书库页 lib-head 完全一致：徽记位置、分隔线高度对齐 */
+  min-height: 70px;
   border-bottom: 1px solid var(--line);
   background: var(--bg);
 }
@@ -313,6 +314,7 @@ body.no-chrome .r-foot { opacity: 0; transform: translateY(100%); pointer-events
 /* ═══════════ 移动端 ═══════════ */
 @media (max-width: 560px) {
   .r-book { display: none; }
+  .brand b { display: none; }   /* 窄屏两页一致：徽记只留图标，给顶栏控件让位 */
   .lib-grid { grid-template-columns: 1fr; }
   .paper { padding: 18px 18px 22px; }
   .content { column-gap: 34px; }

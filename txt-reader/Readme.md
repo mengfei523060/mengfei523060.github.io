@@ -9,7 +9,7 @@
 ```
 txt-reader/
 ├── index.html      两个视图：书库 + 阅读器（单页切换）
-├── css/style.css   全站样式（三套主题、翻页纸张、抽屉）
+├── css/style.css   全站样式（宣纸纸质主题、翻页纸张、抽屉）
 ├── js/db.js        IndexedDB 存储层（shiguang-reader 库：books 元数据 / texts 正文）
 ├── js/parser.js    TXT 解码（UTF-8 失败回退 GBK）、章节切分、杂项清洗
 ├── js/demo.js      内置示例书《云渡口的杂货铺》，首次打开自动入架
@@ -23,7 +23,7 @@ txt-reader/
 - **书库**：导入（按钮多选或直接把 `.txt` 拖进窗口）、书名搜索、统计栏、按书名生成彩色封面卡
 - **阅读器**：按章分卷 + 自动分页排版；左右点击翻页、中间点击收起/唤回工具栏；底部上一章/下一章、页码与百分比
 - **目录 / 书签 / 设置** 三个侧边抽屉：章节跳转、书签增删跳转、字号 / 行距 / 宋体-无衬线切换
-- **主题**：浅色 / 护眼（sepia）/ 深色三套，书库与阅读页一键切换（`html[data-theme]`）
+- **站名徽记**：书库页「拾光阅读」标题前、阅读页「‹ 书库」返回按钮前均带子站图标 + 站名
 - **续读**：每本书自动记忆章节 + 段落 + 百分比，下次点开接着读
 - **编码兼容**：优先 UTF-8（含 BOM 剥离），失败回退 GBK——老网文书最常见的两种编码都能开
 
@@ -40,7 +40,7 @@ txt-reader/
 | 键 | 位置 | 内容 |
 |---|---|---|
 | `shiguang-reader` | IndexedDB | `books`（书名/作者/章节结构等元数据）、`texts`（正文） |
-| `sg-settings` | localStorage | 主题、字号（默认 19px）、行距（1.9）、衬线开关 |
+| `sg-settings` | localStorage | 字号（默认 19px）、行距（1.9）、衬线开关 |
 | `sg-progress` | localStorage | 每本书的阅读进度 |
 | `sg-bookmarks` | localStorage | 每本书的书签列表 |
 | `sg-seeded` | localStorage | 示例书是否已预置 |

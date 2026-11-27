@@ -26,9 +26,10 @@
 
   /* ───────────── 状态与设置 ───────────── */
   const settings = Object.assign(
-    { theme: "light", fs: 19, lh: 1.9, serif: true },
+    { fs: 19, lh: 1.9, serif: true },
     LS.get("sg-settings", {})
   );
+  delete settings.theme;                        // 旧书 / 夜读主题已删除
   let progressMap = LS.get("sg-progress", {});   // bookId -> {ch, para, pct, ts}
   let bookmarkMap = LS.get("sg-bookmarks", {});  // bookId -> [{id,ch,para,snippet,ts}]
   let books = [];
@@ -53,7 +54,7 @@
   function saveBookmarks() { LS.set("sg-bookmarks", bookmarkMap); }
 
   function applySettings() {
-    document.documentElement.dataset.theme = settings.theme;
+    document.documentElement.dataset.theme = "light";   // 仅剩「宣纸」一套主题
     document.documentElement.style.setProperty("--reader-fs", settings.fs + "px");
     document.documentElement.style.setProperty("--reader-lh", settings.lh);
     els.content.classList.toggle("sans", !settings.serif);
@@ -355,11 +356,6 @@
             <button data-set="font" data-v="serif" class="${settings.serif ? "on" : ""}">宋体</button>
             <button data-set="font" data-v="sans" class="${!settings.serif ? "on" : ""}">黑体</button>
           </div></div>
-        <div class="set-row"><span class="label">主题</span>
-          <div class="seg">
-            ${[["light", "宣纸"], ["sepia", "旧书"], ["dark", "夜读"]].map(([v, t]) =>
-              `<button data-set="theme" data-v="${v}" class="${settings.theme === v ? "on" : ""}">${t}</button>`).join("")}
-          </div></div>
         <div class="set-tip">快捷键：← → 或空格 翻页 · 点击页面中部 收起/展开工具栏<br>T 目录 · B 书签 · S 设置 · Esc 返回书库</div>`;
     }
   }
@@ -387,7 +383,6 @@
       else if (k === "fs+") settings.fs = clamp(settings.fs + 1, 14, 30);
       else if (k === "lh") settings.lh = parseFloat(btn.dataset.v);
       else if (k === "font") settings.serif = btn.dataset.v === "serif";
-      else if (k === "theme") settings.theme = btn.dataset.v;
       saveSettings(); applySettings();
       if (cur) repaginate();
       renderDrawer();
@@ -398,12 +393,6 @@
   $("#btn-import").addEventListener("click", () => els.fileInput.click());
   els.fileInput.addEventListener("change", () => { importFiles(els.fileInput.files); els.fileInput.value = ""; });
   els.search.addEventListener("input", renderLibrary);
-  $("#btn-lib-theme").addEventListener("click", () => {
-    const order = ["light", "sepia", "dark"];
-    settings.theme = order[(order.indexOf(settings.theme) + 1) % 3];
-    saveSettings(); applySettings();
-    toast({ light: "宣纸", sepia: "旧书", dark: "夜读" }[settings.theme]);
-  });
 
   /* 拖拽导入 */
   let dragDepth = 0;
